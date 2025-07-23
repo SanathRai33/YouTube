@@ -18,7 +18,7 @@ function Videocard({video}:any) {
                     <div>
                         <h3>{video.title}</h3>
                         <p>{video.videochannel}</p>
-                        <p>{video.views.toISOString()} views {formatDistanceToNow(new Date(video.createdAt))} ago</p>
+                        <p>{video.views/*.toISOString()*/} views {formatDistanceToNow(new Date(video.createdAt))} ago</p>
                     </div>
                 </div>
             </div>
