@@ -59,7 +59,7 @@ function Sidebar() {
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <ThumbsUp color='black' />
             <Link
-              href="/liked-video"
+              href="/liked"
               className="text-gray-800 hover:text-blue-500"
             >
               Liked Videos
