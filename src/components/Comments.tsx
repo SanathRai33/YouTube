@@ -115,7 +115,7 @@ function Comments({ videoId }: any) {
     setComments(fetchComments);
   };
 
-// ...existing code...
+
 return (
   <div className="text-black w-full max-w-2xl mx-auto">
     <h2 className="text-lg font-semibold mb-4">{comments.length} Comments</h2>
@@ -130,7 +130,7 @@ return (
             placeholder="Add a comment"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="w-full min-h-[48px] resize-none border rounded-md px-3 py-2 mb-2"
+            className="w-full min-h-[48px] resize-none rounded-none border-0 border-black border-b-2 px-3 py-2 mb-2 focus-visible::border-none "
           />
           <div className="flex gap-2">
             <Button
@@ -151,11 +151,11 @@ return (
         </div>
       </div>
     )}
-    <div className="space-y-6">
+    <div className="space-y-1">
       {comments.map((comment) => (
         <div
           key={comment._id}
-          className="flex items-start gap-3 bg-gray-50 rounded-lg p-4 shadow-sm"
+          className="flex items-start bg-gray-50 gap-1 rounded-lg p-2"
         >
           <Avatar>
             <AvatarFallback>{comment.username[0]}</AvatarFallback>
@@ -219,7 +219,6 @@ return (
     </div>
   </div>
 );
-// ...existing code...
 }
 
 export default Comments;

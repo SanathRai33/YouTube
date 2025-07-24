@@ -27,7 +27,7 @@ function Sidebar() {
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <Compass color='black' />
             <Link
-              href="/trending"
+              href="/explore"
               className="text-gray-800 hover:text-blue-500"
             >
               Explore
@@ -49,7 +49,7 @@ function Sidebar() {
           <Button className="flex justify-start bg-white hover:bg-gray-100 w-full rounded-none text-base py-1">
             <History color='black' />
             <Link
-              href="/subscriptions"
+              href="/history"
               className="text-gray-800 hover:text-blue-500"
             >
               History
@@ -59,7 +59,7 @@ function Sidebar() {
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <ThumbsUp color='black' />
             <Link
-              href="/subscriptions"
+              href="/liked-video"
               className="text-gray-800 hover:text-blue-500"
             >
               Liked Videos
@@ -69,7 +69,7 @@ function Sidebar() {
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <Clock color='black' />
             <Link
-              href="/subscriptions"
+              href="/watch-later"
               className="text-gray-800 hover:text-blue-500"
             >
               Watch Later
@@ -79,7 +79,7 @@ function Sidebar() {
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <User2 color='black' />
             <Link
-              href="/subscriptions"
+              href="/your-channel"
               className="text-gray-800 hover:text-blue-500"
             >
               Your Channel
