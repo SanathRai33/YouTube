@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className="min-h-screen flex flex-col bg-amber-50">
+      <title>Viewzie</title>
       <Navbar />
       <Toaster/>
       <div className="flex flex-1">
