@@ -1,6 +1,6 @@
 import { create } from "domain";
 import React from "react";
-import Videocard from "./Videocard";
+import VideoCard from "./VideoCard";
 
 function Videogrid() {
   const videos = [
@@ -34,7 +34,7 @@ function Videogrid() {
   ];
 
   return <div>{videos.map((vid)=>(
-    <Videocard key={vid._id} video={vid} />
+    <VideoCard key={vid._id} video={vid} />
   ))}</div>;
 }
 

@@ -79,7 +79,7 @@ function Sidebar() {
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <User2 color='black' />
             <Link
-              href="/your-channel"
+              href="/channel"
               className="text-gray-800 hover:text-blue-500"
             >
               Your Channel

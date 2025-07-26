@@ -24,7 +24,7 @@ function Navbar() {
   return (
     <header className="flex items-center justify-between gap-5 px-4 py-2 bg-white shadow-md border-b-2 border-black">
       <div className="flex items-center space-x-4">
-        <Button className="p-2 rounded-md bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 ">
+        <Button className="p-2 rounded-md bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500  shadow-none">
           <Menu color="black" />
         </Button>
         <Link href="/" className="flex gap-1 text-xl font-bold text-gray-800">
@@ -32,12 +32,12 @@ function Navbar() {
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png"
               alt="Logo"
-              className="w-8 h-5"
+              className="min-w-8 h-5"
             />
           </div>
           <div>
             <span className="text-xl text-black">YouTube</span>
-            <span className="text-xs">In</span>
+            <span className="text-xs align-super">In</span>
           </div>
         </Link>
       </div>
@@ -59,15 +59,15 @@ function Navbar() {
       </form>
       {user ? (
         <div className="flex items-center space-x-4">
-          <Button className="flex items-center space-x-2 bg-white hover:bg-white">
+          <Button className="flex items-center space-x-2 bg-white hover:bg-white shadow-none">
             <VideoIcon color="black" />
           </Button>
-          <Button className="flex items-center space-x-2 bg-white hover:bg-white">
+          <Button className="flex items-center space-x-2 bg-white hover:bg-white shadow-none">
             <Bell color="black" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="flex items-center space-x-2 bg-white hover:bg-white">
+              <Button className="flex items-center space-x-2 bg-white hover:bg-white shadow-none">
                 <Avatar>
                   <AvatarImage src={user.image} alt={user.name} />
                   <AvatarFallback>
@@ -92,7 +92,7 @@ function Navbar() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  href="/channel/${user.id}"
+                  href="/liked/${user.id}"
                   className="flex items-center space-x-2"
                 >
                   Liked videos
@@ -100,15 +100,15 @@ function Navbar() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  href="/channel/${user.id}"
+                  href="/watch-later/${user.id}"
                   className="flex items-center space-x-2"
                 >
-                  Watch LAter
+                  Watch Later
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  href="/channel/${user.id}"
+                  href="/signout/${user.id}"
                   className="flex items-center space-x-2"
                 >
                   Sign Out

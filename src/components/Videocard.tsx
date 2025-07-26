@@ -3,7 +3,7 @@ import React from 'react'
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 
-function Videocard({video}:any) {
+function VideoCard({video}:any) {
     const videos = "/videos/vdo.mp4";
   return (
     <Link href={`/watch/${video._id}`} className="block mb-6 group">
@@ -23,7 +23,7 @@ function Videocard({video}:any) {
             </div>
             <div className="flex items-start gap-3 p-3">
                 <Avatar className="w-9 h-9">
-                    <AvatarFallback>{video.videochannel[0]}</AvatarFallback>
+                    <AvatarFallback>{video.videochannel}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                     <h3 className="text-base font-semibold text-gray-900 truncate">{video.title}</h3>
@@ -38,4 +38,4 @@ function Videocard({video}:any) {
   )
 }
 
-export default Videocard;
+export default VideoCard;
