@@ -1,6 +1,6 @@
 import { Bell, Menu, Mic, Search, User, VideoIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -10,6 +10,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
+import ChannelDialogue from "./ChannelDialogue";
 
 function Navbar() {
   const user = {
@@ -20,6 +21,9 @@ function Navbar() {
   };
 
   // const user = null; // Simulating no user logged in
+
+  const [hasChannel, setHasChannel] = useState(false);
+  const [openDialogue, setOpenDialogue] = useState(false);
 
   return (
     <header className="flex items-center justify-between gap-5 px-4 py-2 bg-white shadow-md border-b-2 border-black">
@@ -77,14 +81,22 @@ function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>
-                <Link
-                  href="/channel/${user.id}"
-                  className="flex items-center space-x-2"
-                >
-                  Your Channel
-                </Link>
-              </DropdownMenuItem>
+              {hasChannel ? (
+                <DropdownMenuItem>
+                  <Link
+                    href="/channel/${user.id}"
+                    className="flex items-center space-x-2"
+                  >
+                    Your Channel
+                  </Link>
+                </DropdownMenuItem>
+              ) : (
+                <div className="px-2 py-1.5">
+                  <Button variant="secondary" size="sm" className="flex items-center space-x-2" onClick={()=>setOpenDialogue(true)}>
+                    Create a Channel
+                  </Button>
+                </div>
+              )}
               <DropdownMenuItem>
                 <Link href="/history" className="flex items-center space-x-2">
                   History
@@ -125,6 +137,7 @@ function Navbar() {
           </Button>
         </>
       )}
+      <ChannelDialogue isOpen={openDialogue} onClose={()=>setOpenDialogue(false)} mode="create" />
     </header>
   );
 }

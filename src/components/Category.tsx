@@ -15,8 +15,8 @@ const categories = [
     "Travel",
     "Health",
     "Science",  
-    "Fashion",
-    "Food",
+    // "Fashion",
+    // "Food",
 ]
 
 function Category() {
