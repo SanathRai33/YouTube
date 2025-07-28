@@ -6,12 +6,12 @@ import { formatDistanceToNow } from 'date-fns';
 function VideoCard({video}:any) {
     const videos = "/videos/vdo.mp4";
   return (
-    <Link href={`/watch/${video._id}`} className="block mb-6 group">
-        <div className="rounded-lg overflow-hidden bg-white shadow hover:shadow-lg transition">
+    <Link href={`/watch/${video._id}`} className="block mb-6 group box-border">
+        <div className="rounded-lg overflow-hidden w-[400px] h-[350px] bg-white shadow hover:shadow-lg transition">
             <div className="relative">
                 <video 
                   src={videos} 
-                  className="object-cover w-full h-44 bg-black" 
+                  className="object-cover w-full h-[225px] bg-black" 
                   muted 
                   controls={false} 
                   preload="metadata"
@@ -21,14 +21,14 @@ function VideoCard({video}:any) {
                   10:24
                 </div>
             </div>
-            <div className="flex items-start gap-3 p-3">
-                <Avatar className="w-9 h-9">
+            <div className="flex items-start gap-3 p-3 h-[100px] box-border">
+                <Avatar className="w-10 h-10">
                     <AvatarFallback>{video.videochannel}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-semibold text-gray-900 truncate">{video.title}</h3>
-                    <p className="text-xs text-gray-600 truncate">{video.videochannel}</p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <h3 className="text-[20px] font-semibold text-black truncate">{video.videotitle}</h3>
+                    <p className="text-[14px] text-gray-600 truncate mt-1">{video.videochannel}</p>
+                    <p className="text-[14px] text-gray-500">
                         {video.views?.toLocaleString()} views &middot; {formatDistanceToNow(new Date(video.createdAt))} ago
                     </p>
                 </div>

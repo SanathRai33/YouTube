@@ -7,16 +7,16 @@ const index = () => {
   const q = searchParams.get("q");
 
   return (
-  <div className="min-h-screen bg-gray-50 py-8 px-4">
-    <div className="max-w-4xl mx-auto">
+  <div className="min-h-screen w-[calc(100%-200px)] bg-gray-50 py-2 px-4">
+    <div className="w-full mx-auto">
       {q && (
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">
+        <div className="px-3 py-1 text-center">
+          <h1 className="text-1xl font-bold text-gray-900">
             Search result for "<span className="text-blue-600">{q}</span>"
           </h1>
         </div>
       )}
-      <Suspense fallback={<div className="text-center py-10 text-gray-500">Loading...</div>}>
+      <Suspense fallback={<div className="text-center py-1 text-gray-500">Loading...</div>}>
         <SearchResult query={q || ""} />
       </Suspense>
     </div>

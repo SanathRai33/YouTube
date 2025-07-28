@@ -23,7 +23,7 @@ function Videogrid() {
       filename: "sample2.mp4",
       filepath: "/videos/sample2.mp4",
       filesize: "20MB",
-      thumbnail: "/thumbnails/sample2.jpg",
+      thumbnail: "https://www.h2kinfosys.com/blog/wp-content/uploads/2024/10/Python-01_2_1.png",
       videochannel: "Channel 2",
       like: 200,
       views: 2000,
@@ -34,7 +34,7 @@ function Videogrid() {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 space-x-3 mt-6 w-[100%]">
       {videos.map((vid) => (
         <VideoCard key={vid._id} video={vid} />
       ))}
