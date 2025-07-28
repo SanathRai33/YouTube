@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import { auth, provider } from "./firebase";
 import axiosInstance from "./axiosInstance";
@@ -7,11 +7,14 @@ import axiosInstance from "./axiosInstance";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(() =>
-    localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user"))
-      : null
-  );
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const login = (userData) => {
     setUser(userData);
@@ -19,9 +22,13 @@ export const UserProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    setUser(userData);
+    setUser(null);
     localStorage.removeItem("user");
-    await signOut();
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error during sign out", error);
+    }
   };
 
   const handlegooglesignin = async () => {
@@ -53,17 +60,19 @@ export const UserProvider = ({ children }) => {
           const response = await axiosInstance.post("/user/login", payload);
           login(response.data.result);
         } catch (error) {
-            console.error(error)
-            logout();
+          console.error(error);
+          logout();
         }
       }
     });
-    return() => unsubscribe();
-  },[]);
+    return () => unsubscribe();
+  }, []);
 
-  return(
-    <UserContext.Provider value={{ user, login, logout, handlegooglesignin}}>
-        {children}
+  return (
+    <UserContext.Provider value={{ user, login, logout, handlegooglesignin }}>
+      {children}
     </UserContext.Provider>
-  )
+  );
 };
+
+export const useUser = () => useContext(UserContext);

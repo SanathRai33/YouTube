@@ -11,18 +11,12 @@ import {
   Video,
 } from "lucide-react";
 import ChannelDialogue from "./ChannelDialogue";
+import { useUser } from "@/lib/AuthContext";
 
 function Sidebar() {
-  const user = {
-    id: "12345",
-    name: "John Doe",
-    image:
-      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
-  };
+  const { user, } = useUser();
+  
 
-  // const user = null; // Simulating no user logged in
-
-  const [hasChannel, setHasChannel] = useState(false);
   const [openDialogue, setOpenDialogue] = useState(false);
 
   return (
@@ -79,11 +73,11 @@ function Sidebar() {
             </Link>
           </Button>
 
-          {hasChannel ? (
+          {user?.channelname ? (
             <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
               <User2 color="black" />
               <Link
-                href="/channel"
+                href="/channel/${user._id}"
                 className="text-gray-800 hover:text-blue-500"
               >
                 Your Channel

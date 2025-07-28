@@ -9,14 +9,11 @@ import {
 } from "./ui/dialog";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import axiosInstance from "@/lib/axiosInstance";
+import { useUser } from "@/lib/AuthContext";
 
 const ChannelDialogue = ({ isOpen, onClose, channeldata, mode }: any) => {
-  const user = {
-    id: "12345",
-    name: "John Doe",
-    image:
-      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
-  };
+  const { user, login } = useUser();
 
   const router = useRouter();
 
@@ -50,6 +47,18 @@ const ChannelDialogue = ({ isOpen, onClose, channeldata, mode }: any) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault;
+    const payload = {
+      channelname: formData.name,
+      description: formData.description,
+    };
+
+    const response = await axiosInstance.patch(
+      `/user/update/${user._id}`,
+      payload
+    );
+
+    login(response?.data)
+    router.push(`/channel/${user?._id}`)
   };
 
   return (
@@ -64,7 +73,7 @@ const ChannelDialogue = ({ isOpen, onClose, channeldata, mode }: any) => {
           <div className="mb-4">
             <label
               htmlFor="name"
-              className="block mb-1 font-medium text-gray-700"
+              className="block mb-1 font-medium text-gray-200"
             >
               Channel Name
             </label>
@@ -73,13 +82,13 @@ const ChannelDialogue = ({ isOpen, onClose, channeldata, mode }: any) => {
               name="name"
               onChange={handleChange}
               value={formData.name}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="mb-4">
             <label
               htmlFor="description"
-              className="block mb-1 font-medium text-gray-700"
+              className="block mb-1 font-medium text-gray-200"
             >
               Channel Description
             </label>
@@ -89,7 +98,7 @@ const ChannelDialogue = ({ isOpen, onClose, channeldata, mode }: any) => {
               onChange={handleChange}
               value={formData.description}
               rows={4}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <DialogFooter>

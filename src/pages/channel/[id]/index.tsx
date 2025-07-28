@@ -5,17 +5,13 @@ import ChannelHeader from "@/components/ChannelHeader";
 import ChannelTab from "@/components/ChannelTab";
 import VideoUploader from "@/components/VideoUploader";
 import ChannelVideo from "@/components/ChannelVideo";
+import { useUser } from "@/lib/AuthContext";
 
 const index = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const user = {
-    id: "1",
-    name: "John Doe",
-    image:
-      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
-  };
+  const { user } = useUser();
 
   try {
     let channel: any = {
