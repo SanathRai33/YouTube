@@ -11,6 +11,7 @@ import {
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import ChannelDialogue from "./ChannelDialogue";
+import { useRouter } from "next/router";
 
 function Navbar() {
   const user = {
@@ -22,8 +23,24 @@ function Navbar() {
 
   // const user = null; // Simulating no user logged in
 
+  const [searchQuery, setSearchQuery] = useState('')
   const [hasChannel, setHasChannel] = useState(false);
   const [openDialogue, setOpenDialogue] = useState(false);
+  const router = useRouter();
+
+  const handleSearch = (e:React.FormEvent) =>{
+    e.preventDefault();
+    
+    if(searchQuery.trim()){
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  }
+
+  const handleKeyPress = (e:React.KeyboardEvent) =>{
+    if(e.key === "Enter"){
+      handleSearch(e as any);
+    }
+  }
 
   return (
     <header className="flex items-center justify-between gap-5 px-4 py-2 bg-white shadow-md border-b-2 border-black">
@@ -45,12 +62,13 @@ function Navbar() {
           </div>
         </Link>
       </div>
-      <form className="flex justify-start space-x-2 w-full max-w-2xl">
+      <form onSubmit={handleSearch} className="flex justify-start space-x-2 w-full max-w-2xl">
         <div className="flex items-center w-full space-x-2 relative">
           <input
             type="text"
             placeholder="Search..."
-            // value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleKeyPress}
+            value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full max-w-md px-4 py-2 border text-black border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <Button className="text-black bg-gray-100 rounded-l-none rounded-r-2xl hover:bg-white absolute right-55 top-0.5">
