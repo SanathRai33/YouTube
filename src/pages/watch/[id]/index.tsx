@@ -1,97 +1,56 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import VideoPlayer from "@/components/VideoPlayer";
 import VideoInfo from "@/components/VideoInfo";
 import Comments from "@/components/Comments";
 import RelatedVideo from "@/components/RelatedVideo";
+import axiosInstance from "@/lib/axiosInstance";
 
 function index() {
   const router = useRouter();
   const { id } = router.query;
+  const [selectedVideo, setSelectedVideo] = useState<any>(null);
+  const [video, setVideo] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const videos = [
-    {
-      _id: "1",
-      videotitle: "Sample Video 1",
-      filename: "sample1.mp4",
-      filepath: "/videos/sample1.mp4",
-      filesize: "15MB",
-      thumbnail: "/thumbnails/sample1.jpg",
-      videochannel: "Channel 1",
-      like: 100,
-      dislike: 20,
-      views: 1000,
-      uploader: "User 1",
-      createdAt: "2023-10-01T12:00:00Z",
-    },
-    {
-      _id: "2",
-      videotitle: "Sample Video 2",
-      filename: "sample2.mp4",
-      filepath: "/videos/sample2.mp4",
-      filesize: "20MB",
-      thumbnail: "/thumbnails/sample2.jpg",
-      videochannel: 'https://static.wikia.nocookie.net/dream_team/images/7/79/Mrbeastlogo.jpg/revision/latest?cb=20230125153030s',
-      like: 200,
-      dislike: 50,
-      views: 2000,
-      uploader: "User 2",
-      createdAt: "2023-10-02T12:00:00Z",
-    },
-  ];
-
-    const relatedvideos = [
-    {
-      _id: "3",
-      videotitle: "Sample Video 1",
-      filename: "sample1.mp4",
-      filepath: "/videos/sample1.mp4",
-      filesize: "15MB",
-      thumbnail: "/thumbnails/sample1.jpg",
-      videochannel: "Channel 1",
-      like: 100,
-      dislike: 20,
-      views: 1000,
-      uploader: "User 1",
-      createdAt: "2023-10-01T12:00:00Z",
-    },
-    {
-      _id: "4",
-      videotitle: "Sample Video 2",
-      filename: "sample2.mp4",
-      filepath: "/videos/sample2.mp4",
-      filesize: "20MB",
-      thumbnail: "/thumbnails/sample2.jpg",
-      videochannel: 'https://static.wikia.nocookie.net/dream_team/images/7/79/Mrbeastlogo.jpg/revision/latest?cb=20230125153030s',
-      like: 200,
-      dislike: 50,
-      views: 2000,
-      uploader: "User 2",
-      createdAt: "2023-10-02T12:00:00Z",
-    },
-  ];
-
-  const video = useMemo(() => {
-    const stringid = Array.isArray(id) ? id[0] : id;
-    return videos.find((vid) => vid._id === stringid);
+  useEffect(() => {
+    const fetchVideo = async () => {
+      if (!id || typeof id !== "string") return;
+      try {
+        const res = await axiosInstance.get("/video/getAll");
+        const video = res.data?.filter((vid: any) => vid._id === id);
+        setSelectedVideo(video[0]);
+        console.log("video",video[0],id)
+        setVideo(res.data);  
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVideo();
   }, [id]);
 
+if (loading) {
+  return <div>Loading...</div>;
+}
 
-  if (!video) {
-    return <div>Video not found</div>;
-  }
+if (!selectedVideo) {
+  return <div>Video not found</div>;
+}
+
 
   return (
     <div className="flex-1 min-h-screen bg-white">
       <div className="max-w-7xl mx-auto p-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4">
-            <VideoPlayer video={videos} />
-            <VideoInfo video={videos} />
-            <Comments videoId={video._id} />
+            <VideoPlayer video={selectedVideo} />
+            <VideoInfo video={selectedVideo} />
+            <Comments videoId={id} />
           </div>
           <div className="space-y-4">
-            <RelatedVideo videos={relatedvideos} />
+            <RelatedVideo videos={video} />
           </div>
         </div>
       </div>

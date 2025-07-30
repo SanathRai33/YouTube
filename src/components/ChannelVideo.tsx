@@ -15,7 +15,7 @@ const ChannelVideo = ({ videos }: any) => {
       <h2 className="text-xl font-bold text-gray-900 mb-4">Videos</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {videos.map((video: any) => (
-          <VideoCard key={video.id} video={video} />
+          <VideoCard key={video._id} video={video} />
         ))}
       </div>
     </div>

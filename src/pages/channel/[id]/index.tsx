@@ -27,7 +27,7 @@ const index = () => {
           </div>
           <div>
             {channel && (
-              <VideoUploader channelId={id} channelName={channel.channelname} />
+              <VideoUploader channelId={channel._id} channelName={channel.channelname} />
             )}
           </div>
           <div>

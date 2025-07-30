@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 
 interface LikedItem {
   _id: string;
-  videoId: string;
+  videoid: string;
   viewer: string;
   watchdon: string;
   video: {
@@ -45,7 +45,7 @@ const LikedContent = () => {
       const LikedData = [
         {
           _id: "1",
-          videoId: "abc123",
+          videoid: "abc123",
           viewer: user.id,
           watchdon: new Date(Date.now() - 7200000).toISOString(),
           video: {
@@ -58,7 +58,7 @@ const LikedContent = () => {
         },
         {
           _id: "2",
-          videoId: "def456",
+          videoid: "def456",
           viewer: user.id,
           watchdon: new Date(Date.now() - 8400000).toISOString(),
           video: {
@@ -125,7 +125,7 @@ const LikedContent = () => {
             key={item._id}
             className="flex gap-4 items-start"
           >
-            <Link href={`/watch/${item.videoId}`} className="block w-48 flex-shrink-0 rounded overflow-hidden group">
+            <Link href={`/watch/${item.videoid}`} className="block w-48 flex-shrink-0 rounded overflow-hidden group">
               <video
                 src={videos}
                 className="object-cover w-full h-28 bg-black rounded"
@@ -136,7 +136,7 @@ const LikedContent = () => {
               />
             </Link>
             <div className="flex-1 min-w-0">
-              <Link href={`/watch/${item.videoId}`} className="block group">
+              <Link href={`/watch/${item.videoid}`} className="block group">
                 <h3 className="text-base font-semibold text-gray-900 truncate group-hover:text-blue-600 transition">
                   {item.video.videotitle}
                 </h3>

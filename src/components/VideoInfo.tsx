@@ -9,6 +9,7 @@ import {
   ThumbsUp,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { useUser } from "@/lib/AuthContext";
 
 function VideoInfo({ video }: any) {
   const [like, setLike] = useState(video.like || 0);
@@ -16,6 +17,8 @@ function VideoInfo({ video }: any) {
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const { user } = useUser();
 
   useEffect(() => {
     setLike(video.like || 0);
@@ -56,13 +59,6 @@ function VideoInfo({ video }: any) {
     setIsDisliked(!isDisliked);
   };
 
-  const user: any = {
-    id: "12345",
-    name: "John Doe",
-    image:
-      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
-  };
-
   return (
     <div className="bg-white p-4 rounded-lg gap-2 text-black">
       <h1 className=" font-bold text-2xl">
@@ -72,7 +68,7 @@ function VideoInfo({ video }: any) {
         <div className="flex items-center justify-start space-x-4 w-full">
           <Avatar className="w-10 h-10 bg-black">
             <AvatarFallback>
-              {video.videochannel ||
+              {video.videochannel.charAt(0) ||
                 "https://static.wikia.nocookie.net/dream_team/images/7/79/Mrbeastlogo.jpg/revision/latest?cb=20230125153030"}
             </AvatarFallback>
           </Avatar>
@@ -127,7 +123,9 @@ function VideoInfo({ video }: any) {
             suscipit magni error maiore voluptatibus, cumque, doloribus
           </p>
         </div>
-        <Button className="bg-transperant text-black shadow-none p-0">{showFullDescription? "Show less" : "Show more"}</Button>
+        <Button className="bg-transperant text-black shadow-none p-0">
+          {showFullDescription ? "Show less" : "Show more"}
+        </Button>
       </div>
     </div>
   );
