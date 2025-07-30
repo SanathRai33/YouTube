@@ -59,6 +59,11 @@ const ChannelDialogue = ({ isOpen, onClose, channeldata, mode }: any) => {
 
     login(response?.data)
     router.push(`/channel/${user?._id}`)
+      setFormData({
+        name: "",
+        description: "",
+      });
+      onClose();
   };
 
   return (

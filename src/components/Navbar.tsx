@@ -27,6 +27,7 @@ function Navbar() {
 
   // const user = null; // Simulating no user logged in
 
+
   const [searchQuery, setSearchQuery] = useState("");
   const [openDialogue, setOpenDialogue] = useState(false);
   const router = useRouter();
@@ -109,7 +110,7 @@ function Navbar() {
               {user?.channelname ? (
                 <DropdownMenuItem>
                   <Link
-                    href="/channel/${user._id}"
+                    href={`/channel/${user?._id}`}
                     className="flex items-center space-x-2"
                   >
                     Your Channel

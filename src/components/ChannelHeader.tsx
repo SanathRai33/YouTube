@@ -9,23 +9,23 @@ const ChannelHeader = ({ channel, user }: any) => {
     <div className="w-full bg-white border-b border-gray-200 mb-6">
       <div className="w-full bg-amber-200 min-h-50"></div>
       <div className=" py-6 px-4">
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5"> 
           <Avatar className="w-20 h-20 text-3xl bg-gray-200">
-            <AvatarFallback>{channel.name[0]}</AvatarFallback>
+            <AvatarFallback className="bg-black text-white">{channel?.channelname[0]}</AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{channel.name}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{channel?.channelname}</h1>
             <div className="mt-1">
               <span className="text-gray-500 text-sm">
-                @{channel.name.toLowerCase().replace(/\s+/g, "")}
+                @{channel?.channelname.toLowerCase().replace(/\s+/g, "")}
               </span>
             </div>
-            {channel.description && (
-              <p className="mt-2 text-gray-700">{channel.description}</p>
+            {channel?.description && (
+              <p className="mt-2 text-gray-700">{channel?.description}</p>
             )}
           </div>
-          {/* Show Subscribe button only if user is NOT the channel owner */}
-          {user && user.id !== channel.id && (
+          {/* Show Subscribe button only if user is NOT the channel? owner */}
+          {user && user?._id !== channel?._id && (
             <div className="ml-auto">
               <Button
                 onClick={() => setIsSubscribed((prev) => !prev)}

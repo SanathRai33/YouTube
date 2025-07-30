@@ -5,10 +5,11 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Progress } from "./ui/progress";
+import axiosInstance from "@/lib/axiosInstance";
 
 const VideoUploader = ({ channelId, channelName }: any) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProcess] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoTitle, setVideoTitle] = useState("");
   const [uploadComplete, setUploadComplete] = useState(false);
@@ -39,7 +40,7 @@ const VideoUploader = ({ channelId, channelName }: any) => {
     setVideoTitle("");
     setIsUploading(false);
     setUploadComplete(false);
-    setUploadProcess(0);
+    setUploadProgress(0);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -52,6 +53,38 @@ const VideoUploader = ({ channelId, channelName }: any) => {
     resetForm();
   };
 
+  const handleUpload = async () => {
+    if (!videoFile || !videoTitle.trim()) {
+      toast.error("Please provide file and title");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", videoFile);
+    formData.append("videotitle", videoTitle);
+    formData.append("videochannel", channelName);
+    formData.append("uploader", channelId);
+    try {
+      setIsUploading(true);
+      setUploadProgress(0);
+      const res = await axiosInstance.post("/video/upload", formData, {
+        onUploadProgress: (progresEvent: any) => {
+          const progress = Math.round(
+            (progresEvent.loaded * 100) / progresEvent.total
+          );
+          setUploadProgress(progress);
+        },
+      });
+      toast.success("Uploaded successfully");
+      resetForm()
+    } catch (error) {
+      console.log("Error uploading video",error)
+      toast.error("There was a error in uploading video. Please try again...")
+    }finally{
+      setIsUploading(false)
+    }
+  };
+
   return (
     <div className="w-full max-w-full mx-auto bg-white rounded-xl shadow p-8">
       <h1 className="text-2xl font-bold mb-6 text-gray-900">Upload a Video</h1>
@@ -62,9 +95,15 @@ const VideoUploader = ({ channelId, channelName }: any) => {
             className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-8 cursor-pointer hover:bg-gray-50 transition"
           >
             <Upload className="w-12 h-12 text-blue-500 mb-2" />
-            <p className="text-lg font-semibold text-black mb-1">Drag and drop video file to upload</p>
-            <p className="text-sm text-gray-500 mb-1">or click to select file</p>
-            <p className="text-xs text-gray-400 mb-2">MP4, WebM, MOV, AVI (max 100MB)</p>
+            <p className="text-lg font-semibold text-black mb-1">
+              Drag and drop video file to upload
+            </p>
+            <p className="text-sm text-gray-500 mb-1">
+              or click to select file
+            </p>
+            <p className="text-xs text-gray-400 mb-2">
+              MP4, WebM, MOV, AVI (max 100MB)
+            </p>
             <input
               type="file"
               ref={fileInputRef}
@@ -78,8 +117,12 @@ const VideoUploader = ({ channelId, channelName }: any) => {
             <div className="flex items-center gap-4 bg-gray-50 rounded p-4">
               <FileVideo className="w-10 h-10 text-blue-500" />
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-900 truncate">{videoFile.name}</p>
-                <p className="text-xs text-gray-500">{(videoFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+                <p className="font-semibold text-gray-900 truncate">
+                  {videoFile.name}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
+                </p>
               </div>
               {!isUploading && !uploadComplete && (
                 <Button variant="ghost" size="icon" onClick={cancelUpload}>
@@ -93,7 +136,9 @@ const VideoUploader = ({ channelId, channelName }: any) => {
               )}
             </div>
             <div>
-              <Label htmlFor="title" className="block mb-1 text-black">Title *(required)</Label>
+              <Label htmlFor="title" className="block mb-1 text-black">
+                Title *(required)
+              </Label>
               <Input
                 id="title"
                 value={videoTitle}
@@ -105,7 +150,9 @@ const VideoUploader = ({ channelId, channelName }: any) => {
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-sm text-gray-600">Uploading...</span>
-                  <span className="text-sm font-semibold text-blue-600">{uploadProgress}%</span>
+                  <span className="text-sm font-semibold text-blue-600">
+                    {uploadProgress}%
+                  </span>
                 </div>
                 <Progress value={uploadProgress} />
               </div>
@@ -121,21 +168,8 @@ const VideoUploader = ({ channelId, channelName }: any) => {
                     Cancel
                   </Button>
                   <Button
-                    disabled={isUploading}
-                    onClick={() => {
-                      setIsUploading(true);
-                      // Simulate upload
-                      let progress = 0;
-                      const interval = setInterval(() => {
-                        progress += 10;
-                        setUploadProcess(progress);
-                        if (progress >= 100) {
-                          clearInterval(interval);
-                          setIsUploading(false);
-                          setUploadComplete(true);
-                        }
-                      }, 200);
-                    }}
+                    disabled={isUploading || !videoTitle.trim() || uploadComplete}
+                    onClick={handleUpload}
                   >
                     {isUploading ? "Uploading..." : "Upload"}
                   </Button>

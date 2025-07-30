@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
       <div className="min-h-screen flex flex-col bg-white">
-        <title>Viewzie</title>
+        <title>YouTube</title>
         <Navbar />
         <Toaster />
         <div className="flex flex-1">
