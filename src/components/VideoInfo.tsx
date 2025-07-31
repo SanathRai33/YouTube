@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
+  Clock,
   LucideDownload,
   MoreHorizontal,
   Share2,
@@ -10,12 +11,14 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useUser } from "@/lib/AuthContext";
+import axiosInstance from "@/lib/axiosInstance";
 
 function VideoInfo({ video }: any) {
   const [like, setLike] = useState(video.like || 0);
   const [dislike, setDisLike] = useState(video.dislike || 0);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   const { user } = useUser();
@@ -27,36 +30,56 @@ function VideoInfo({ video }: any) {
     setIsDisliked(false);
   }, [video]);
 
-  const handleLike = () => {
+  const handleLike = async () => {
     if (!user) return;
-    if (isLiked) {
-      setLike((prev: any) => prev - 1);
-      setIsLiked(false);
-    } else {
-      setLike((prev: any) => prev + 1);
-      setIsLiked(true);
-      if (isDisliked) {
-        setDisLike((prev: any) => prev - 1);
-        setIsDisliked(false);
+    try {
+      const res = await axiosInstance.post(`/like/${video._id}`, {
+        userId: user?._id,
+      });
+      if (res.data.liked) {
+        if (isLiked) {
+          setLike((prev: any) => prev - 1);
+          setIsLiked(false);
+        } else {
+          setLike((prev: any) => prev + 1);
+          setIsLiked(true);
+          if (isDisliked) {
+            setDisLike((prev: any) => prev - 1);
+            setIsDisliked(false);
+          }
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
-    setIsLiked(!isLiked);
   };
 
-  const handleDislike = () => {
+  const handleDislike = async () => {
     if (!user) return;
-    if (isDisliked) {
-      setDisLike((prev: any) => prev - 1);
-      setIsDisliked(false);
-    } else {
-      setDisLike((prev: any) => prev + 1);
-      setIsDisliked(true);
-      if (isLiked) {
-        setLike((prev: any) => prev - 1);
-        setIsLiked(false);
+    try {
+      const res = await axiosInstance.post(`/like/${video._id}`, {
+        userId: user?._id,
+      });
+      if (res.data.liked) {
+        if (isDisliked) {
+          setDisLike((prev: any) => prev - 1);
+          setIsDisliked(false);
+        } else {
+          setDisLike((prev: any) => prev + 1);
+          setIsDisliked(true);
+          if (isLiked) {
+            setLike((prev: any) => prev - 1);
+            setIsLiked(false);
+          }
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
-    setIsDisliked(!isDisliked);
+  };
+
+  const handleWatchLater = () => {
+    !isSaved ? setIsSaved(true) : setIsSaved(false);
   };
 
   return (
@@ -73,8 +96,8 @@ function VideoInfo({ video }: any) {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <h3 className="">{video.videochannel || "New thing"}</h3>
-            <p className=""> 1.2M subscribers</p>
+            <h3>{video.videochannel || "New thing"}</h3>
+            <p> 1.2M subscribers</p>
           </div>
           <Button className="bg-red-600 hover:bg-red-700">Subscribe</Button>
         </div>
@@ -85,25 +108,32 @@ function VideoInfo({ video }: any) {
               onClick={handleLike}
               variant={isLiked ? "secondary" : "outline"}
             >
-              <ThumbsUp className="" />
-              Like {video.like || 0}
+              <ThumbsUp />
+              Like {like || 0}
             </Button>
             <Button
               className="bg-gray-200 "
               onClick={handleDislike}
               variant={isLiked ? "secondary" : "outline"}
             >
-              <ThumbsDown className="" />
-              Dislike {video.dislike || 0}
+              <ThumbsDown />
+              Dislike {dislike || 0}
+            </Button>
+            <Button
+              onClick={handleWatchLater}
+              className="bg-gray-200 text-black hover:bg-gray-300 min-w-[123px]"
+            >
+              <Clock />
+              {isSaved ? "Saved" : "Watch Later"}
             </Button>
             <Button className="bg-gray-200 text-black hover:bg-gray-300">
-              <Share2 className="">Share</Share2>
+              <Share2>Share</Share2>
             </Button>
             <Button className="bg-gray-200 text-black hover:bg-gray-300">
-              <LucideDownload className="">Download</LucideDownload>
+              <LucideDownload>Download</LucideDownload>
             </Button>
             <Button className="bg-gray-200 text-black hover:bg-gray-300">
-              <MoreHorizontal className="" />
+              <MoreHorizontal />
             </Button>
           </div>
         </div>
