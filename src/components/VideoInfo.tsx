@@ -30,6 +30,23 @@ function VideoInfo({ video }: any) {
     setIsDisliked(false);
   }, [video]);
 
+  useEffect(() => {
+    const handleView = async () => {
+      if (user) {
+        try {
+          return await axiosInstance.post(`/history/${video?._id}`, {
+            userId: user?._id,
+          });
+        } catch (error) {
+          return console.log(error);
+        }
+      } else {
+        return await axiosInstance.post(`/history/views/${video?._id}`);
+      }
+    };
+    handleView();
+  }, [user]);
+
   const handleLike = async () => {
     if (!user) return;
     try {
@@ -78,8 +95,20 @@ function VideoInfo({ video }: any) {
     }
   };
 
-  const handleWatchLater = () => {
-    !isSaved ? setIsSaved(true) : setIsSaved(false);
+  const handleWatchLater = async () => {
+    if (!user) return;
+    try {
+      const res = await axiosInstance.post(`/watch/${video._id}`, {
+        userId: user?._id,
+      });
+      if (res.data.watchLater) {
+        setIsSaved(!isSaved);
+      } else {
+        setIsSaved(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import VideoPlayer from "@/components/VideoPlayer";
 import VideoInfo from "@/components/VideoInfo";
@@ -20,8 +20,8 @@ function index() {
         const res = await axiosInstance.get("/video/getAll");
         const video = res.data?.filter((vid: any) => vid._id === id);
         setSelectedVideo(video[0]);
-        console.log("video",video[0],id)
-        setVideo(res.data);  
+        console.log("video", video[0], id);
+        setVideo(res.data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -31,14 +31,13 @@ function index() {
     fetchVideo();
   }, [id]);
 
-if (loading) {
-  return <div>Loading...</div>;
-}
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-if (!selectedVideo) {
-  return <div>Video not found</div>;
-}
-
+  if (!selectedVideo) {
+    return <div>Video not found</div>;
+  }
 
   return (
     <div className="flex-1 min-h-screen bg-white">

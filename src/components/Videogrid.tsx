@@ -56,7 +56,7 @@ function Videogrid() {
       {loading ? (
         <>Loading...</>
       ) : (
-        videos.map((vid: any) => <VideoCard key={vid._id} video={vid} />)
+        videos?.map((vid: any) => <VideoCard key={vid._id} video={vid} />)
       )}
     </div>
   );
