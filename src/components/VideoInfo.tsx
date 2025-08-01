@@ -26,8 +26,8 @@ function VideoInfo({ video }: any) {
   useEffect(() => {
     setLike(video.like || 0);
     setDisLike(video.dislike || 0);
-    setIsLiked(false);
-    setIsDisliked(false);
+    // setIsLiked(false);
+    // setIsDisliked(false);
   }, [video]);
 
   useEffect(() => {

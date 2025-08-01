@@ -77,8 +77,6 @@ const HistoryContent = () => {
     );
   }
 
-  console.log("history", history);
-
   return (
     <div className="min-w-full mx-auto px-2 ">
       <div className="mb-4">

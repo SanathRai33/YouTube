@@ -170,79 +170,89 @@ function Comments({ videoid }: any) {
         </div>
       )}
       <div className="space-y-1">
-        {comments.map((comment) => (
-          <div
-            key={comment?._id}
-            className="flex items-start bg-gray-50 gap-1 rounded-lg p-2"
-          >
-            <Avatar>
-              {user?.image ? (
-                <AvatarImage
-                  src={user?.image}
-                  alt={comment.usercommented}
-                />
-              ) : (
-                <AvatarFallback className="bg-black text-white">
-                  {comment?.usercommented?.charAt(0)}
-                </AvatarFallback>
-              )}
-            </Avatar>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="font-medium">{comment?.usercommented}</span>
-                <span className="text-xs text-gray-500">
-                  {formatDistanceToNow(new Date(comment?.commentedon))} ago
-                </span>
-              </div>
-              {editingCommentsId === comment?._id ? (
-                <div>
-                  <Textarea
-                    value={editText}
-                    onChange={(e) => setEditText(e.target.value)}
-                    className="w-full min-h-[40px] border rounded-md px-2 py-1 mb-2"
-                  />
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={handleUploadComment}
-                      className="bg-green-600 text-white hover:bg-green-700"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setEditingCommentsId(null);
-                        setEditText("");
-                      }}
-                      className="bg-gray-200 text-gray-700 hover:bg-gray-300"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <p className="mb-2">{comment?.commentbody}</p>
-                  {comment?.userid === user?.id && (
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => handleEdit(comment)}
-                        className="bg-transperant text-black hover:bg-gray-100 shadow-none"
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        onClick={() => handleDelete(comment?._id)}
-                        className="bg-transperant text-black hover:bg-gray-100 shadow-none"
-                      >
-                        Delete
-                      </Button>
-                    </div>
+        {comments.length === 0 ? (
+          <p>
+            No comments yet.Be the first to comment!
+          </p>
+        ) : (
+          <>
+            {comments.map((comment) => (
+              <div
+                key={comment?._id}
+                className="flex items-start bg-gray-50 gap-1 rounded-lg p-2"
+              >
+                <Avatar>
+                  {user?.image ? (
+                    <AvatarImage
+                      src={user?.image}
+                      alt={comment.usercommented}
+                    />
+                  ) : (
+                    <AvatarFallback className="bg-black text-white">
+                      {comment?.usercommented?.charAt(0)}
+                    </AvatarFallback>
                   )}
-                </>
-              )}
-            </div>
-          </div>
-        ))}
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-medium">
+                      {comment?.usercommented}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {formatDistanceToNow(new Date(comment?.commentedon))} ago
+                    </span>
+                  </div>
+                  {editingCommentsId === comment?._id ? (
+                    <div>
+                      <Textarea
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        className="w-full min-h-[40px] border rounded-md px-2 py-1 mb-2"
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={handleUploadComment}
+                          className="bg-green-600 text-white hover:bg-green-700"
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setEditingCommentsId(null);
+                            setEditText("");
+                          }}
+                          className="bg-gray-200 text-gray-700 hover:bg-gray-300"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="mb-2">{comment?.commentbody}</p>
+                      {comment?.userid === user?.id && (
+                        <div className="flex gap-2">
+                          <Button
+                            onClick={() => handleEdit(comment)}
+                            className="bg-transperant text-black hover:bg-gray-100 shadow-none"
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            onClick={() => handleDelete(comment?._id)}
+                            className="bg-transperant text-black hover:bg-gray-100 shadow-none"
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
