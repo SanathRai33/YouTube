@@ -85,57 +85,65 @@ const HistoryContent = () => {
         <p className="text-black font-medium">{history.length} Videos</p>
       </div>
       <div className="space-y-6">
-        {history?.map((item) => (
+        {history?.map((item, index) => (
           <div
             key={item._id}
-            className="flex max-w-md gap-4 bg-white hover:shadow-lg transition p-4 items-start"
+            className="flex max-w-125 gap-4 bg-white hover:shadow-lg transition p-4 items-center justify-center"
           >
-            <Link
-              href={`/watch/${item.videoid._id}`}
-              className="block w-48 flex-shrink-0 rounded overflow-hidden group"
-            >
-              <video
-                src={videos}
-                className="object-cover w-full h-28 bg-black rounded"
-                muted
-                controls={false}
-                preload="metadata"
-                // poster={item.video.thumbnail}
-              />
-            </Link>
-            <div className="flex-1 min-w-0">
-              <Link href={`/watch/${item.videoid._id}`} className="block group">
-                <h3 className="text-base font-semibold text-gray-900 truncate group-hover:text-blue-600 transition">
-                  {item.videoid.videotitle}
-                </h3>
-                <p className="text-xs text-black truncate">
-                  {item.videoid.videochannel}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {Number(item.videoid.views).toLocaleString()} views &middot;{" "}
-                  {formatDistanceToNow(new Date(item.videoid.createdAt))} ago
-                </p>
-                <p className="text-xs text-gray-400">
-                  Watched {formatDistanceToNow(new Date(item.createdAt))} ago
-                </p>
+            <p>{index + 1}.</p>
+            <div key={item._id} className="flex gap-4 items-start">
+              <Link
+                href={`/watch/${item.videoid._id}`}
+                className="block w-48 flex-shrink-0 rounded overflow-hidden group"
+              >
+                <video
+                  src={videos}
+                  className="object-cover w-full h-28 bg-black rounded"
+                  muted
+                  controls={false}
+                  preload="metadata"
+                  // poster={item.video.thumbnail}
+                />
               </Link>
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-gray-500 hover:text-red-500"
+              <div className="flex-1 min-w-0">
+                <Link
+                  href={`/watch/${item.videoid._id}`}
+                  className="block group"
                 >
-                  <MoreVertical />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => handleRemoveHistory(item._id)}>
-                  Remove from history
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <h3 className="text-base font-semibold text-gray-900 truncate group-hover:text-blue-600 transition">
+                    {item.videoid.videotitle}
+                  </h3>
+                  <p className="text-xs text-black truncate">
+                    {item.videoid.videochannel}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {Number(item.videoid.views).toLocaleString()} views &middot;{" "}
+                    {formatDistanceToNow(new Date(item.videoid.createdAt))} ago
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    Watched {formatDistanceToNow(new Date(item.createdAt))} ago
+                  </p>
+                </Link>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-gray-500 hover:text-red-500"
+                  >
+                    <MoreVertical />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem
+                    onClick={() => handleRemoveHistory(item._id)}
+                  >
+                    Remove from history
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         ))}
       </div>

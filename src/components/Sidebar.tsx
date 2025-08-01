@@ -14,8 +14,7 @@ import ChannelDialogue from "./ChannelDialogue";
 import { useUser } from "@/lib/AuthContext";
 
 function Sidebar() {
-  const { user, } = useUser();
-  
+  const { user } = useUser();
 
   const [openDialogue, setOpenDialogue] = useState(false);
 
@@ -83,7 +82,7 @@ function Sidebar() {
                 Your Channel
               </Link>
             </Button>
-          ) : (
+          ) : user ? (
             <Button
               variant="secondary"
               size="sm"
@@ -92,6 +91,8 @@ function Sidebar() {
             >
               Create a Channel
             </Button>
+          ) : (
+            <></>
           )}
         </div>
       </nav>
