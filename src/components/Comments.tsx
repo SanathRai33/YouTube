@@ -144,11 +144,12 @@ function Comments({ videoid }: any) {
             <AvatarFallback>{user.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <Textarea
+            <Textarea id="text"
+            name="text"
               placeholder="Add a comment"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              className="w-full min-h-[48px] resize-none rounded-none border-0 border-black border-b-2 px-3 py-2 mb-2 focus-visible::border-none "
+              className="w-full min-h-[48px] resize-none border-0 border-black border-b-2 px-3 py-2 mb-2 focus-visible:ring-0 focus-visible:border-b-2 focus-visible:border-black rounded-none focus:outline-none focus:border-transparent focus:ring-0"
             />
             <div className="flex gap-2">
               <Button
