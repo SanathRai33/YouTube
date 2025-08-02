@@ -76,69 +76,82 @@ const WatchLaterContent = () => {
   }
 
   return (
-    <div className="min-w-full mx-auto px-2 ">
+    <div className="min-w-full mx-auto px-2 sm:px-4">
       <div className="mb-4">
         <p className="text-black font-medium">{watchLater.length} Videos</p>
       </div>
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {watchLater.map((item, index) => (
           <div
             key={item._id}
-            className="flex max-w-125 gap-4 bg-white hover:shadow-lg transition p-4 items-start justify-center"
+            className="flex flex-col sm:flex-row max-w-full sm:max-w-125 gap-3 bg-white hover:shadow-lg transition p-3 sm:p-4 items-start"
           >
-            <p>{index + 1}.</p>
-            <div key={item._id} className="flex gap-4 items-start">
-              <Link
-                href={`/watch/${item.videoid._id}`}
-                className="block w-48 flex-shrink-0 rounded overflow-hidden group"
-              >
-                <video
-                  src={videos}
-                  className="object-cover w-full h-28 bg-black rounded"
-                  muted
-                  controls={false}
-                  preload="metadata"
-                  // poster={item.video.thumbnail}
-                />
-              </Link>
-              <div className="flex-1 min-w-0">
+            <div
+              key={item._id}
+              className="flex flex-row lg:gap-3 gap-1 sm:gap-1 w-full"
+            >
+              <div className="flex gap-3 w-50 h-[113px]">
                 <Link
                   href={`/watch/${item.videoid._id}`}
-                  className="block group"
+                  className="block flex-shrink-0 rounded overflow-hidden group"
                 >
-                  <h3 className="text-base font-semibold text-gray-900 truncate group-hover:text-blue-600 transition">
-                    {item.videoid.videotitle}
-                  </h3>
-                  <p className="text-xs text-black truncate">
-                    {item.videoid.videochannel}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {Number(item.videoid.views).toLocaleString()} views &middot;{" "}
-                    {formatDistanceToNow(new Date(item.videoid.createdAt))} ago
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    Saved {formatDistanceToNow(new Date(item.createdAt))} ago
-                  </p>
+                  <video
+                    src={videos}
+                    className="object-cover h-[113px] sm:h-28 w-50 bg-black rounded"
+                    muted
+                    controls={false}
+                    preload="metadata"
+                    // poster={item.video.thumbnail}
+                  />
                 </Link>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-gray-500 hover:text-red-500"
+
+              <div className="flex-1 min-w-0 flex flex-row gap-3 sm:gap-0 w-full">
+                <div className="flex-1 w-23">
+                  <Link
+                    href={`/watch/${item.videoid._id}`}
+                    className="block group"
                   >
-                    <MoreVertical />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem
-                    onClick={() => handleRemoveWatchLater(item._id)}
-                  >
-                    Remove from watch later
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <h3 className="text-sm h-6 sm:text-base font-extrabold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition">
+                      {item.videoid.videotitle}
+                    </h3>
+                    <p className="text-xs text-gray-500 truncate font-bold">
+                      {item.videoid.videochannel}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1 lg:flex hidden">
+                      {Number(item.videoid.views).toLocaleString()} views
+                      &middot;{" "}
+                      {formatDistanceToNow(new Date(item.videoid.createdAt))}{" "}
+                      ago
+                    </p>
+                    <p className="text-xs text-gray-400 lg:flex hidden">
+                      Saved {formatDistanceToNow(new Date(item.createdAt))} ago
+                    </p>
+                  </Link>
+                </div>
+
+                <div className="self-center">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-gray-500 hover:text-red-500 h-8 w-8"
+                      >
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => handleRemoveWatchLater(item._id)}
+                        className="text-sm"
+                      >
+                        Remove from watch later
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
             </div>
           </div>
         ))}

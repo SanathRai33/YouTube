@@ -78,69 +78,83 @@ const HistoryContent = () => {
   }
 
   return (
-    <div className="min-w-full mx-auto px-2 ">
+    <div className="w-full mx-auto px-2 sm:px-4">
       <div className="mb-4">
-        <p className="text-black font-medium">{history.length} Videos</p>
+        <p className="text-black font-medium text-sm sm:text-base">
+          {history.length} {history.length === 1 ? "Video" : "Videos"}
+        </p>
       </div>
-      <div className="space-y-6">
+
+      <div className="space-y-3 sm:space-y-4">
         {history?.map((item, index) => (
           <div
             key={item._id}
-            className="flex max-w-125 gap-4 bg-white hover:shadow-lg transition p-4 items-center justify-center"
+            className="flex flex-col sm:flex-row gap-3 bg-white hover:shadow-md transition p-3 sm:p-4 rounded-lg"
           >
-            <p>{index + 1}.</p>
-            <div key={item._id} className="flex gap-4 items-start">
+            {/* Index number - hidden on mobile */}
+            <p className="hidden sm:block text-gray-500 w-6">{index + 1}.</p>
+
+            <div className="flex flex-col sm:flex-row gap-3 w-full">
+              {/* Video thumbnail */}
               <Link
                 href={`/watch/${item.videoid._id}`}
-                className="block w-48 flex-shrink-0 rounded overflow-hidden group"
+                className="block w-full sm:w-40 flex-shrink-0 rounded overflow-hidden group"
               >
                 <video
                   src={videos}
-                  className="object-cover w-full h-28 bg-black rounded"
+                  className="object-cover w-full h-32 sm:h-24 bg-black rounded"
                   muted
                   controls={false}
                   preload="metadata"
-                  // poster={item.video.thumbnail}
                 />
               </Link>
-              <div className="flex-1 min-w-0">
+
+              {/* Video info */}
+              <div className="flex-1 min-w-0 flex flex-col justify-between">
                 <Link
                   href={`/watch/${item.videoid._id}`}
                   className="block group"
                 >
-                  <h3 className="text-base font-semibold text-gray-900 truncate group-hover:text-blue-600 transition">
+                  <h3 className="text-sm sm:text-base font-medium text-gray-900 line-clamp-2 group-hover:text-blue-600 transition">
                     {item.videoid.videotitle}
                   </h3>
-                  <p className="text-xs text-black truncate">
+                  <p className="text-xs text-gray-600 mt-1">
                     {item.videoid.videochannel}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                </Link>
+
+                <div className="mt-2">
+                  <p className="text-xs text-gray-500">
                     {Number(item.videoid.views).toLocaleString()} views &middot;{" "}
                     {formatDistanceToNow(new Date(item.videoid.createdAt))} ago
                   </p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-gray-400 mt-1">
                     Watched {formatDistanceToNow(new Date(item.createdAt))} ago
                   </p>
-                </Link>
+                </div>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-gray-500 hover:text-red-500"
-                  >
-                    <MoreVertical />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem
-                    onClick={() => handleRemoveHistory(item._id)}
-                  >
-                    Remove from history
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+
+              {/* Menu button - positioned differently on mobile */}
+              <div className="flex sm:block justify-end sm:justify-normal mt-2 sm:mt-0">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-gray-500 hover:text-red-500 h-8 w-8"
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => handleRemoveHistory(item._id)}
+                    >
+                      Remove from history
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </div>
         ))}

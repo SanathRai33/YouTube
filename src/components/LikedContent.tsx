@@ -76,71 +76,88 @@ const LikedContent = () => {
   }
 
   return (
-    <div className="min-w-full mx-auto px-2 ">
-      <div className="mb-4">
-        <p className="text-gray-700 font-medium">{liked.length} Videos</p>
-        <Button>
-          <Play />
-          Play all
+    <div className="w-full mx-auto px-2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+        <div>
+          <p className="text-gray-700 font-medium text-sm sm:text-base">
+            {liked.length} {liked.length === 1 ? "Video" : "Videos"}
+          </p>
+        </div>
+        <Button className="flex items-center gap-2 w-full sm:w-auto">
+          <Play className="h-4 w-4" />
+          <span>Play all</span>
         </Button>
       </div>
-      <div className="space-y-6">
+
+      <div className="space-y-4 sm:space-y-6">
         {liked.map((item, index) => (
           <div
             key={item._id}
-            className="flex max-w-125 gap-4 bg-white hover:shadow-lg transition p-4 items-center justify-center"
+            className="flex flex-row gap-1 bg-white hover:shadow-md transition-all py-3 px-2 rounded-lg border border-gray-100"
           >
-            <p>{index + 1}.</p>
-            <div key={item._id} className="flex gap-4 items-start">
-              <Link
-                href={`/watch/${item.videoid._id}`}
-                className="block w-48 flex-shrink-0 rounded overflow-hidden group"
-              >
-                <video
-                  src={videos}
-                  className="object-cover w-full h-28 bg-black rounded"
-                  muted
-                  controls={false}
-                  preload="metadata"
-                  // poster={item.video.thumbnail}
-                />
-              </Link>
-              <div className="flex-1 min-w-0">
+            <p className="flex items-center text-black">{index + 1}.</p>
+
+            <div className="flex gap-1">
+              {/* Video thumbnail */}
+              <div className="flex gap-3 w-50 h-[113px]">
                 <Link
                   href={`/watch/${item.videoid._id}`}
-                  className="block group"
+                  className="block flex-shrink-0 rounded overflow-hidden group"
                 >
-                  <h3 className="text-base font-semibold text-gray-900 truncate group-hover:text-blue-600 transition">
+                  <video
+                    src={videos}
+                    className="object-cover h-[113px] sm:h-28 w-50 bg-black rounded"
+                    muted
+                    controls={false}
+                    preload="metadata"
+                  />
+                </Link>
+              </div>
+
+              {/* Video info */}
+              <div className="flex-1 flex flex-row gap-3 w-23">
+                <Link
+                  href={`/watch/${item.videoid._id}`}
+                  className="block group space-y-1 w-23"
+                >
+                  <h3 className="text-sm h-6 sm:text-base font-extrabold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition">
                     {item.videoid.videotitle}
                   </h3>
-                  <p className="text-xs text-gray-600 truncate">
+                  <p className="text-xs text-gray-500 truncate font-bold">
                     {item.videoid.videochannel}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  {/* <p className="text-xs text-gray-500">
                     {Number(item.videoid.views).toLocaleString()} views &middot;{" "}
                     {formatDistanceToNow(new Date(item.videoid.createdAt))} ago
                   </p>
                   <p className="text-xs text-gray-400">
                     Liked {formatDistanceToNow(new Date(item.createdAt))} ago
-                  </p>
+                  </p> */}
                 </Link>
               </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-gray-500 hover:text-red-500"
-                  >
-                    <MoreVertical />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => handleRemoveLiked(item._id)}>
-                    Remove from liked
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+
+              {/* Menu button */}
+              <div className="self-center">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-gray-500 hover:text-red-500 h-8 w-4"
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => handleRemoveLiked(item._id)}
+                      className="text-red-600 focus:text-red-600"
+                    >
+                      Remove from liked
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </div>
         ))}

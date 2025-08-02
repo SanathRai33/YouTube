@@ -3,14 +3,20 @@ import React, { Suspense } from "react";
 
 const index = () => {
   return (
-    <div className="min-h-screen min-w-[1260px] flex flex-col text-black py-8 px-4">
-      <div className="w-full p-1">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-2">
-          Watch Liked Vieos
-        </h1>
+    <div className="min-h-screen w-full flex flex-col text-black py-4 sm:py-8 px-2 sm:px-4">
+      <div className="w-full max-w-screen-2xl mx-auto p-1">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 border-b pb-2">
+            Liked Videos
+          </h1>
+        </div>
+
         <Suspense
           fallback={
-            <div className="text-center py-10 text-gray-500">Loading...</div>
+            <div className="flex flex-col items-center justify-center py-16 gap-4">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+              <p className="text-gray-500">Loading your liked videos...</p>
+            </div>
           }
         >
           <LikedContent />
