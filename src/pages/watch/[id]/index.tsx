@@ -41,14 +41,14 @@ function index() {
 
   return (
     <div className="flex-1 min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-4">
+      <div className="max-w-7xl mx-auto p-3 sm:p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          <div className="md:col-span-2 space-y-3 sm:space-y-4">
             <VideoPlayer video={selectedVideo} />
             <VideoInfo video={selectedVideo} />
             <Comments videoId={id} />
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <RelatedVideo videos={video} />
           </div>
         </div>

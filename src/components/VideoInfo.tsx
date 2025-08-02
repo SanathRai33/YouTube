@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
   Clock,
@@ -112,77 +112,135 @@ function VideoInfo({ video }: any) {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg gap-2 text-black">
-      <h1 className=" font-bold text-2xl">
+    <div className="bg-white p-3 sm:p-4 rounded-lg gap-2 text-black">
+      {/* Video Title */}
+      <h1 className="font-bold text-xl sm:text-2xl">
         {video.videotitle || "Survive 100 days"}
       </h1>
-      <div className="flex items-center justify-between mt-2">
-        <div className="flex items-center justify-start space-x-4 w-full">
-          <Avatar className="w-10 h-10 bg-black">
+
+      {/* Channel Info and Actions */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-2 gap-3">
+        {/* Channel Section */}
+        <div className="flex items-center justify-start space-x-3 w-full sm:w-auto">
+          <Avatar className="w-9 h-9 sm:w-10 sm:h-10 bg-black">
+            <AvatarImage src={video.channelImage} />
             <AvatarFallback>
-              {video.videochannel.charAt(0) ||
-                "https://static.wikia.nocookie.net/dream_team/images/7/79/Mrbeastlogo.jpg/revision/latest?cb=20230125153030"}
+              {video.videochannel?.charAt(0) || "N"}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <h3>{video.videochannel || "New thing"}</h3>
-            <p> 1.2M subscribers</p>
+            <h3 className="text-sm sm:text-base font-medium">
+              {video.videochannel || "New thing"}
+            </h3>
+            <p className="text-xs sm:text-sm text-gray-600">1.2M subscribers</p>
           </div>
-          <Button className="bg-red-600 hover:bg-red-700">Subscribe</Button>
+          <Button className="bg-red-600 hover:bg-red-700 text-xs sm:text-sm h-8 sm:h-9 ml-auto sm:ml-0">
+            Subscribe
+          </Button>
         </div>
-        <div>
-          <div className="flex items-center space-x-2">
-            <Button
-              className="bg-gray-200 "
-              onClick={handleLike}
-              variant={isLiked ? "secondary" : "outline"}
-            >
-              <ThumbsUp />
-              Like {like || 0}
-            </Button>
-            <Button
-              className="bg-gray-200 "
-              onClick={handleDislike}
-              variant={isLiked ? "secondary" : "outline"}
-            >
-              <ThumbsDown />
-              Dislike {dislike || 0}
-            </Button>
-            <Button
-              onClick={handleWatchLater}
-              className="bg-gray-200 text-black hover:bg-gray-300 min-w-[123px]"
-            >
-              <Clock />
-              {isSaved ? "Saved" : "Watch Later"}
-            </Button>
-            <Button className="bg-gray-200 text-black hover:bg-gray-300">
-              <Share2>Share</Share2>
-            </Button>
-            <Button className="bg-gray-200 text-black hover:bg-gray-300">
-              <LucideDownload>Download</LucideDownload>
-            </Button>
-            <Button className="bg-gray-200 text-black hover:bg-gray-300">
-              <MoreHorizontal />
-            </Button>
-          </div>
+
+        {/* Action Buttons - Desktop */}
+        <div className="hidden sm:flex items-center flex-wrap gap-2">
+          <Button
+            variant={isLiked ? "secondary" : "outline"}
+            className="gap-1"
+            onClick={handleLike}
+          >
+            <ThumbsUp size={16} />
+            <span>Like {like || 0}</span>
+          </Button>
+          <Button
+            variant={isDisliked ? "secondary" : "outline"}
+            className="gap-1"
+            onClick={handleDislike}
+          >
+            <ThumbsDown size={16} />
+            <span>Dislike {dislike || 0}</span>
+          </Button>
+          <Button
+            variant="outline"
+            className="gap-1"
+            onClick={handleWatchLater}
+          >
+            <Clock size={16} />
+            <span>{isSaved ? "Saved" : "Watch Later"}</span>
+          </Button>
+          <Button variant="outline" className="gap-1">
+            <Share2 size={16} />
+            <span>Share</span>
+          </Button>
+          <Button variant="outline" className="gap-1">
+            <LucideDownload size={16} />
+            <span>Download</span>
+          </Button>
+          <Button variant="outline" size="icon">
+            <MoreHorizontal size={16} />
+          </Button>
+        </div>
+
+        {/* Action Buttons - Mobile (Simplified) */}
+        <div className="sm:hidden flex items-center gap-2 overflow-x-auto w-full pb-2 hide-scrollbar">
+          <Button
+            variant={isLiked ? "secondary" : "outline"}
+            size="sm"
+            className="gap-1"
+            onClick={handleLike}
+          >
+            <ThumbsUp size={14} />
+            <span>{like || 0}</span>
+          </Button>
+          <Button
+            variant={isDisliked ? "secondary" : "outline"}
+            size="sm"
+            className="gap-1"
+            onClick={handleDislike}
+          >
+            <ThumbsDown size={14} />
+            <span>{dislike || 0}</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-1"
+            onClick={handleWatchLater}
+          >
+            <Clock size={14} />
+          </Button>
+          <Button variant="outline" size="sm" className="gap-1">
+            <Share2 size={14} />
+          </Button>
+          <Button variant="outline" size="sm" className="gap-1">
+            <LucideDownload size={14} />
+          </Button>
         </div>
       </div>
-      <div className="bg-gray-100 p-2 rounded-md">
-        <div className="flex items-center justify-between">
-          <span>{video.views?.toLocaleString() || 100} views</span>
-          {video.createdAt ? (
-            <span>{formatDistanceToNow(new Date(video.createdAt))} ago</span>
-          ) : (
-            <span>12-06-2023</span>
-          )}
+
+      {/* Video Description */}
+      <div className="bg-gray-100 p-3 rounded-md mt-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
+          <span className="text-sm font-medium">
+            {video.views?.toLocaleString() || 100} views
+          </span>
+          <span className="text-sm text-gray-600">
+            {video.createdAt
+              ? formatDistanceToNow(new Date(video.createdAt)) + " ago"
+              : "12-06-2023"}
+          </span>
         </div>
-        <div>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. A sapiente
-            suscipit magni error maiore voluptatibus, cumque, doloribus
+        <div className="mt-2">
+          <p
+            className={`text-sm ${!showFullDescription ? "line-clamp-2" : ""}`}
+          >
+            {video.description ||
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. A sapiente suscipit magni error maiore voluptatibus, cumque, doloribus"}
           </p>
         </div>
-        <Button className="bg-transperant text-black shadow-none p-0">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-black hover:bg-transparent px-0 mt-1"
+          onClick={() => setShowFullDescription(!showFullDescription)}
+        >
           {showFullDescription ? "Show less" : "Show more"}
         </Button>
       </div>

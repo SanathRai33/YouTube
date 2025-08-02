@@ -4,6 +4,13 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "../lib/AuthContext";
+// In your _app.tsx or layout component
+import { gsap } from 'gsap/dist/gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>YouTube</title>
         <Navbar />
         <Toaster />
-        <div className="flex flex-1">
+        <div className="flex flex-1 flex-col-reverse md:flex-row">
           <Sidebar />
           <Component {...pageProps} />
         </div>

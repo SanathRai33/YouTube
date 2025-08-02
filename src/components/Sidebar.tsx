@@ -6,6 +6,7 @@ import {
   Compass,
   History,
   Home,
+  Menu,
   ThumbsUp,
   User2,
   Video,
@@ -13,14 +14,21 @@ import {
 import ChannelDialogue from "./ChannelDialogue";
 import { useUser } from "@/lib/AuthContext";
 
-function Sidebar() {
+function Sidebar({ onClose }: { onClose?: () => void }) {
   const { user } = useUser();
 
   const [openDialogue, setOpenDialogue] = useState(false);
 
   return (
-    <aside className="flex flex-col h-screen bg-white border-r-2 border-gray-200">
-      <nav className="flex flex-col space-y-0.5 px-2 w-64">
+    <aside className="lg:flex flex-col h-full bg-white border-r-2 border-gray-200 w-64 hidden">
+      {/* <Button
+        className="lg:hidden ml-2 mt-0 text-black self-start bg-white"
+        onClick={onClose}
+        aria-label="Close sidebar"
+      >
+        <Menu color="black" />
+      </Button> */}
+      <nav className="lg:flex flex-col space-y-0.5 px-2 w-64 flex-1 overflow-y-auto">
         <div className="border-b-2 border-gray-400 py-1">
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <Home color="black" />
