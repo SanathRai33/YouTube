@@ -5,6 +5,7 @@ import {
   Clock,
   LucideDownload,
   MoreHorizontal,
+  MoreVertical,
   Share2,
   ThumbsDown,
   ThumbsUp,
@@ -12,6 +13,12 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { useUser } from "@/lib/AuthContext";
 import axiosInstance from "@/lib/axiosInstance";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
+import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 
 function VideoInfo({ video }: any) {
   const [like, setLike] = useState(video.like || 0);
@@ -141,77 +148,150 @@ function VideoInfo({ video }: any) {
 
         {/* Action Buttons - Desktop */}
         <div className="hidden sm:flex items-center flex-wrap gap-2">
-          <Button
-            variant={isLiked ? "secondary" : "outline"}
-            className="gap-1"
-            onClick={handleLike}
-          >
-            <ThumbsUp size={16} />
-            <span>Like {like || 0}</span>
-          </Button>
-          <Button
-            variant={isDisliked ? "secondary" : "outline"}
-            className="gap-1"
-            onClick={handleDislike}
-          >
-            <ThumbsDown size={16} />
-            <span>Dislike {dislike || 0}</span>
-          </Button>
+          <div>
+            <Button
+              variant={isLiked ? "secondary" : "outline"}
+              className="gap-1 bg-white rounded-l-full"
+              onClick={handleLike}
+            >
+              <ThumbsUp size={16} />
+              <span>Like {like || 0}</span>
+            </Button>
+            <Button
+              variant={isDisliked ? "secondary" : "outline"}
+              className="gap-1 bg-white rounded-r-full"
+              onClick={handleDislike}
+            >
+              <ThumbsDown size={16} />
+            </Button>
+          </div>
           <Button
             variant="outline"
-            className="gap-1"
+            className="gap-1 bg-white rounded-full"
             onClick={handleWatchLater}
           >
             <Clock size={16} />
             <span>{isSaved ? "Saved" : "Watch Later"}</span>
           </Button>
-          <Button variant="outline" className="gap-1">
+          {/* <Button variant="outline" className="gap-1 bg-white rounded-full">
             <Share2 size={16} />
             <span>Share</span>
           </Button>
-          <Button variant="outline" className="gap-1">
+          <Button variant="outline" className="gap-1 bg-white rounded-full">
             <LucideDownload size={16} />
             <span>Download</span>
-          </Button>
-          <Button variant="outline" size="icon">
+          </Button> */}
+          {/* <Button
+            variant="outline"
+            size="icon"
+            className=" bg-white rounded-full"
+          >
             <MoreHorizontal size={16} />
-          </Button>
+          </Button> */}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="bg-white rounded-full"
+              >
+                <MoreHorizontal size={16} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>
+                <Button
+                  // variant="outline"
+                  className="gap-1 bg-white text-black hover:bg-gray-50"
+                >
+                  <LucideDownload size={16} />
+                  <span>Download</span>
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button
+                  // variant="outline"
+                  className="gap-1 bg-white text-black hover:bg-gray-50"
+                  onClick={handleWatchLater}
+                >
+                  <Clock size={16} />
+                  <span>{isSaved ? "Saved" : "Watch Later"}</span>
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Action Buttons - Mobile (Simplified) */}
-        <div className="sm:hidden flex items-center gap-2 overflow-x-auto w-full pb-2 hide-scrollbar">
-          <Button
-            variant={isLiked ? "secondary" : "outline"}
-            size="sm"
-            className="gap-1"
-            onClick={handleLike}
-          >
-            <ThumbsUp size={14} />
-            <span>{like || 0}</span>
-          </Button>
-          <Button
-            variant={isDisliked ? "secondary" : "outline"}
-            size="sm"
-            className="gap-1"
-            onClick={handleDislike}
-          >
-            <ThumbsDown size={14} />
-            <span>{dislike || 0}</span>
-          </Button>
-          <Button
+        <div className="sm:hidden flex items-center justify-between gap-2 overflow-x-auto w-full pb-2 hide-scrollbar">
+          <div className=" flex items-center gap-2">
+            <div>
+              <Button
+                variant={isLiked ? "secondary" : "outline"}
+                size="sm"
+                className="gap-1 bg-white rounded-l-full"
+                onClick={handleLike}
+              >
+                <ThumbsUp size={14} />
+                <span>{like || 0}</span>
+              </Button>
+              <Button
+                variant={isDisliked ? "secondary" : "outline"}
+                size="sm"
+                className="gap-1 bg-white rounded-r-full"
+                onClick={handleDislike}
+              >
+                <ThumbsDown size={14} />
+              </Button>
+            </div>
+            <Button variant="outline" size="sm" className="gap-1 bg-white rounded-full">
+              <Share2 size={14} /> Share
+            </Button>
+          </div>
+          {/* <Button
             variant="outline"
             size="sm"
-            className="gap-1"
+            className="gap-1 bg-white"
             onClick={handleWatchLater}
           >
             <Clock size={14} />
           </Button>
-          <Button variant="outline" size="sm" className="gap-1">
-            <Share2 size={14} />
-          </Button>
-          <Button variant="outline" size="sm" className="gap-1">
+          <Button variant="outline" size="sm" className="gap-1 bg-white">
             <LucideDownload size={14} />
-          </Button>
+          </Button> */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="self-end">
+              <Button
+                variant="outline"
+                size="icon"
+                className="bg-white rounded-full"
+              >
+                <MoreHorizontal size={16} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>
+                <Button
+                  // variant="outline"
+                  className="gap-1 bg-white text-black hover:bg-gray-50"
+                >
+                  <LucideDownload size={16} />
+                  <span>Download</span>
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button
+                  // variant="outline"
+                  className="gap-1 bg-white text-black hover:bg-gray-50"
+                  onClick={handleWatchLater}
+                >
+                  <Clock size={16} />
+                  <span>{isSaved ? "Saved" : "Watch Later"}</span>
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 

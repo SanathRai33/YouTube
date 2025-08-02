@@ -34,7 +34,8 @@ const SearchResult = ({ query }: any) => {
         filename: "sample2.mp4",
         filepath: "/videos/sample2.mp4",
         filesize: "20MB",
-        thumbnail: "https://www.h2kinfosys.com/blog/wp-content/uploads/2024/10/Python-01_2_1.png",
+        thumbnail:
+          "https://www.h2kinfosys.com/blog/wp-content/uploads/2024/10/Python-01_2_1.png",
         videochannel: "Channel 2",
         like: 200,
         views: 2000,
@@ -64,49 +65,62 @@ const SearchResult = ({ query }: any) => {
 
   if (!hasResult) {
     return (
-      <div className="py-10 text-center text-gray-500">
-        <h2 className="text-xl font-semibold mb-2">No result found</h2>
-        <p>Try different keywords or remove search filter</p>
+      <div className="py-10 text-center text-gray-500 px-4">
+        <h2 className="text-xl font-semibold mb-2">No results found</h2>
+        <p className="text-sm sm:text-base">
+          Try different keywords or remove search filters
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 mt-6 box-content">
+    <div className="grid grid-cols-1 gap-4 sm:gap-6 mt-4 sm:mt-6">
       {video &&
         video.map((vid: any) => (
           <div
             key={vid._id}
-            className="bg-gray-50 box-content shadow hover:shadow-lg transition p-4 space-x-4 flex h-[280px] w-[cal(100%-100px)]"
+            className="bg-gray-50 shadow hover:shadow-lg transition p-3 sm:p-4 flex flex-col sm:flex-row h-auto sm:h-[200px] md:h-[240px] w-full"
           >
-            <div className="bg-black w-[500px] h-[280px] overflow-hidden rounded-lg">
+            {/* Thumbnail */}
+            <div className="relative w-full sm:w-[300px] md:w-[400px] h-[180px] sm:h-full mb-3 sm:mb-0 sm:mr-4 rounded-lg overflow-hidden">
               <img
                 src={vid.thumbnail}
                 alt={vid.videotitle}
-                className="w-full h-full object-cover mb-3"
+                className="w-full h-full object-cover"
               />
+              {/* Video duration badge */}
+              <span className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+                {vid.duration || "0:00"}
+              </span>
             </div>
-            <div className="w-[calc(100%-550px)]">
-              <h3 className="text-lg font-bold text-gray-900 truncate mb-1">
+
+            {/* Video Info */}
+            <div className="flex-1 flex flex-col">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 mb-1">
                 {vid.videotitle}
               </h3>
-              <div className="flex items-center text-xs text-gray-500 gap-2">
-                <p className="text-xs text-gray-500 mt-1">
-                  {vid.views?.toLocaleString()} views &middot;{" "}
-                  {formatDistanceToNow(new Date(vid.createdAt))} ago
+
+              <div className="flex items-center text-xs text-gray-500 mb-2">
+                <span>{vid.views?.toLocaleString()} views</span>
+                <span className="mx-1">•</span>
+                <span>{formatDistanceToNow(new Date(vid.createdAt))} ago</span>
+              </div>
+
+              <div className="flex items-center mt-1 mb-3">
+                <Avatar className="w-8 h-8 sm:w-10 sm:h-10 mr-2">
+                  <AvatarFallback className="text-xs sm:text-sm">
+                    {vid.videochannel?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <p className="text-sm text-gray-600 line-clamp-1">
+                  {vid.videochannel}
                 </p>
               </div>
-              <div className="flex items-center p-1 space-x-1">
-                <Avatar className="w-10 h-10">
-                    <AvatarFallback>{video.videochannel}</AvatarFallback>
-                </Avatar>
-                <p className="text-sm text-gray-600 truncate mb-1">
-                {vid.videochannel}
+
+              <p className="text-sm text-gray-700 line-clamp-2 sm:line-clamp-3 mt-auto">
+                {vid?.description || ""}
               </p>
-              </div>
-              <div>
-                <p>{vid?.description || ""}</p>
-              </div>
             </div>
           </div>
         ))}
