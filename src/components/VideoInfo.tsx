@@ -5,7 +5,6 @@ import {
   Clock,
   LucideDownload,
   MoreHorizontal,
-  MoreVertical,
   Share2,
   ThumbsDown,
   ThumbsUp,
@@ -27,14 +26,16 @@ function VideoInfo({ video }: any) {
   const [isDisliked, setIsDisliked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscriberCount, setSubscriberCount] = useState(0);
 
   const { user } = useUser();
 
   useEffect(() => {
     setLike(video.like || 0);
     setDisLike(video.dislike || 0);
-    // setIsLiked(false);
-    // setIsDisliked(false);
+    setIsLiked(false);
+    setIsDisliked(false);
   }, [video]);
 
   useEffect(() => {
@@ -53,6 +54,58 @@ function VideoInfo({ video }: any) {
     };
     handleView();
   }, [user]);
+
+  useEffect(() => {
+    const fetchSubscriptionStatus = async () => {
+      if (!user || !video?.uploader) return;
+      console.log("Subscribe payload", {
+        subscriberId: user?._id,
+        channelId: video?.uploader,
+      });
+
+      try {
+        const [subsRes, mySubRes] = await Promise.all([
+          axiosInstance.get(`/subscription/subscribers/${video.uploader}`),
+          axiosInstance.get(`/subscription/${user._id}/${video.uploader}`),
+        ]);
+
+        setSubscriberCount(subsRes.data.length);
+        setIsSubscribed(mySubRes.data.isSubscribed);
+      } catch (error) {
+        console.log("Subscription error", error);
+      }
+    };
+
+    fetchSubscriptionStatus();
+  }, [video, user]);
+
+  const handleSubscribe = async () => {
+    if (!user || !video?.uploader) return;
+    if (user._id === video.uploader) {
+      alert("You cannot subscribe to your own channel.");
+      return;
+    }
+
+    try {
+      if (isSubscribed) {
+        await axiosInstance.post(`/subscription/unsubscribe`, {
+          subscriberId: user._id,
+          channelId: video.uploader,
+        });
+        setIsSubscribed(false);
+        setSubscriberCount((prev) => prev - 1);
+      } else {
+        await axiosInstance.post(`/subscription/subscribe`, {
+          subscriberId: user._id,
+          channelId: video.uploader,
+        });
+        setIsSubscribed(true);
+        setSubscriberCount((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.log("Subscription toggle failed", error);
+    }
+  };
 
   const handleLike = async () => {
     if (!user) return;
@@ -141,8 +194,13 @@ function VideoInfo({ video }: any) {
             </h3>
             <p className="text-xs sm:text-sm text-gray-600">1.2M subscribers</p>
           </div>
-          <Button className="bg-red-600 hover:bg-red-700 text-xs sm:text-sm h-8 sm:h-9 ml-auto sm:ml-0">
-            Subscribe
+          <Button
+            onClick={handleSubscribe}
+            className={`${
+              isSubscribed ? "bg-gray-400" : "bg-red-600 hover:bg-red-700"
+            } text-xs sm:text-sm h-8 sm:h-9 ml-auto sm:ml-0`}
+          >
+            {isSubscribed ? "Subscribed" : "Subscribe"}
           </Button>
         </div>
 
@@ -173,21 +231,6 @@ function VideoInfo({ video }: any) {
             <Clock size={16} />
             <span>{isSaved ? "Saved" : "Watch Later"}</span>
           </Button>
-          {/* <Button variant="outline" className="gap-1 bg-white rounded-full">
-            <Share2 size={16} />
-            <span>Share</span>
-          </Button>
-          <Button variant="outline" className="gap-1 bg-white rounded-full">
-            <LucideDownload size={16} />
-            <span>Download</span>
-          </Button> */}
-          {/* <Button
-            variant="outline"
-            size="icon"
-            className=" bg-white rounded-full"
-          >
-            <MoreHorizontal size={16} />
-          </Button> */}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -245,21 +288,14 @@ function VideoInfo({ video }: any) {
                 <ThumbsDown size={14} />
               </Button>
             </div>
-            <Button variant="outline" size="sm" className="gap-1 bg-white rounded-full">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1 bg-white rounded-full"
+            >
               <Share2 size={14} /> Share
             </Button>
           </div>
-          {/* <Button
-            variant="outline"
-            size="sm"
-            className="gap-1 bg-white"
-            onClick={handleWatchLater}
-          >
-            <Clock size={14} />
-          </Button>
-          <Button variant="outline" size="sm" className="gap-1 bg-white">
-            <LucideDownload size={14} />
-          </Button> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="self-end">
               <Button
