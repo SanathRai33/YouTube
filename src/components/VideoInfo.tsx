@@ -80,8 +80,8 @@ function VideoInfo({ video }: any) {
   }, [video, user]);
 
   const handleSubscribe = async () => {
-    if (!user) {
-      alert("Login before subscribe!");
+    if(!user){
+      alert("Login before subscribe!")
       return;
     }
     if (!video?.uploader) return;
@@ -115,8 +115,7 @@ function VideoInfo({ video }: any) {
     if (!user) return;
     try {
       const res = await axiosInstance.post(`/like/${video._id}`, {
-        userId: user._id,
-        filetype: video.filetype || "video/mp4",
+        userId: user?._id,
       });
       if (res.data.liked) {
         if (isLiked) {
