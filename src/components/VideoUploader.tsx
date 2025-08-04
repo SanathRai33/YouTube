@@ -144,6 +144,7 @@ const VideoUploader = ({ channelId, channelName }: any) => {
                 value={videoTitle}
                 onChange={(e) => setVideoTitle(e.target.value)}
                 className="w-full text-black"
+                disabled={isUploading}
               />
             </div>
             {isUploading && (

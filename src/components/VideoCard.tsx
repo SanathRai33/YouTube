@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { formatDistanceToNow } from "date-fns";
 
 function VideoCard({ video }: any) {
@@ -24,8 +24,11 @@ function VideoCard({ video }: any) {
           </div>
         </div>
         <div className="flex items-start gap-3 p-3">
-          <Avatar className="w-9 h-9 md:w-10 md:h-10 flex-shrink-0">
-            <AvatarFallback>{video?.videochannel?.[0]}</AvatarFallback>
+          <Avatar className="w-9 h-9 sm:w-10 sm:h-10 bg-black">
+            <AvatarImage src={video.uploader?.image} />
+            <AvatarFallback>
+              {video.uploader?.channelname?.charAt(0) || "N"}
+            </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <h3 className="text-base md:text-[18px] font-semibold text-black line-clamp-2">

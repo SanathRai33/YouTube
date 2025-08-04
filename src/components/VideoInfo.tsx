@@ -80,7 +80,11 @@ function VideoInfo({ video }: any) {
   }, [video, user]);
 
   const handleSubscribe = async () => {
-    if (!user || !video?.uploader) return;
+    if(!user){
+      alert("Login before subscribe!")
+      return;
+    }
+    if (!video?.uploader) return;
     if (user._id === video.uploader) {
       alert("You cannot subscribe to your own channel.");
       return;
@@ -183,9 +187,9 @@ function VideoInfo({ video }: any) {
         {/* Channel Section */}
         <div className="flex items-center justify-start space-x-3 w-full sm:w-auto">
           <Avatar className="w-9 h-9 sm:w-10 sm:h-10 bg-black">
-            <AvatarImage src={video.channelImage} />
+            <AvatarImage src={video.uploader?.image} />
             <AvatarFallback>
-              {video.videochannel?.charAt(0) || "N"}
+              {video.uploader?.channelname?.charAt(0) || "N"}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
