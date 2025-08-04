@@ -39,7 +39,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
 
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <Compass color="black" />
-            <Link href={`/explore/${user._id}`} className="text-gray-800 hover:text-blue-500">
+            <Link href="/explore" className="text-gray-800 hover:text-blue-500">
               Explore
             </Link>
           </Button>
@@ -47,7 +47,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
           <Button className="flex justify-start bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <Video color="black" />
             <Link
-              href={`/subscriptions/${user._id}`}
+              href="/subscriptions"
               className="text-gray-800 hover:text-blue-500"
             >
               Subscriptions
@@ -58,14 +58,14 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
         <div>
           <Button className="flex justify-start bg-white hover:bg-gray-100 w-full rounded-none text-base py-1">
             <History color="black" />
-            <Link href={`/history/${user._id}`} className="text-gray-800 hover:text-blue-500">
+            <Link href="/history" className="text-gray-800 hover:text-blue-500">
               History
             </Link>
           </Button>
 
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <ThumbsUp color="black" />
-            <Link href={`/liked/${user._id}`} className="text-gray-800 hover:text-blue-500">
+            <Link href="/liked" className="text-gray-800 hover:text-blue-500">
               Liked Videos
             </Link>
           </Button>
@@ -73,7 +73,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
           <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
             <Clock color="black" />
             <Link
-              href={`/watch-later/${user._id}`}
+              href="/watch-later"
               className="text-gray-800 hover:text-blue-500"
             >
               Watch Later
@@ -84,7 +84,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
             <Button className="flex justify-start space-x-2 bg-white hover:bg-gray-100 w-full rounded-none text-base">
               <User2 color="black" />
               <Link
-                href={`/channel/${user._id}`}
+                href="/channel/${user._id}"
                 className="text-gray-800 hover:text-blue-500"
               >
                 Your Channel

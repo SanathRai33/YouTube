@@ -101,7 +101,7 @@ const LikedContent = () => {
               {/* Video thumbnail */}
               <div className="flex gap-3 w-50 h-[113px]">
                 <Link
-                  href={`/watch/${item.videoid._id}`}
+                  href={`/watch/${item?.videoid?._id}`}
                   className="block flex-shrink-0 rounded overflow-hidden group"
                 >
                   <video
@@ -117,18 +117,18 @@ const LikedContent = () => {
               {/* Video info */}
               <div className="flex-1 flex flex-row gap-3 w-23">
                 <Link
-                  href={`/watch/${item.videoid._id}`}
+                  href={`/watch/${item?.videoid?._id}`}
                   className="block group space-y-1 w-23"
                 >
                   <h3 className="text-sm h-6 sm:text-base font-extrabold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition">
-                    {item.videoid.videotitle}
+                    {item?.videoid?.videotitle}
                   </h3>
                   <p className="text-xs text-gray-500 truncate font-bold">
-                    {item.videoid.videochannel}
+                    {item?.videoid?.videochannel}
                   </p>
                   {/* <p className="text-xs text-gray-500">
-                    {Number(item.videoid.views).toLocaleString()} views &middot;{" "}
-                    {formatDistanceToNow(new Date(item.videoid.createdAt))} ago
+                    {Number(item?.videoid?.views).toLocaleString()} views &middot;{" "}
+                    {formatDistanceToNow(new Date(item?.videoid?.createdAt))} ago
                   </p>
                   <p className="text-xs text-gray-400">
                     Liked {formatDistanceToNow(new Date(item.createdAt))} ago
