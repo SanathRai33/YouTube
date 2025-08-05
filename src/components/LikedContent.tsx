@@ -89,7 +89,7 @@ const LikedContent = () => {
       </div>
 
       <div className="space-y-4 sm:space-y-6">
-        {liked.map((item, index) => (
+        {liked?.map((item, index) => (
           <div
             key={item._id}
             className="flex flex-row gap-1 bg-white hover:shadow-md transition-all py-3 px-2 rounded-lg border border-gray-100"
