@@ -58,10 +58,6 @@ function VideoInfo({ video }: any) {
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
       if (!user || !video?.uploader) return;
-      console.log("Subscribe payload", {
-        subscriberId: user?._id,
-        channelId: video?.uploader,
-      });
 
       try {
         const [subsRes, mySubRes] = await Promise.all([
