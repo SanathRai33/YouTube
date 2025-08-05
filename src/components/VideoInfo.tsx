@@ -80,8 +80,8 @@ function VideoInfo({ video }: any) {
   }, [video, user]);
 
   const handleSubscribe = async () => {
-    if(!user){
-      alert("Login before subscribe!")
+    if (!user) {
+      alert("Login before subscribe!");
       return;
     }
     if (!video?.uploader) return;
@@ -196,7 +196,9 @@ function VideoInfo({ video }: any) {
             <h3 className="text-sm sm:text-base font-medium">
               {video.videochannel || "New thing"}
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600">1.2M subscribers</p>
+            <p className="text-xs sm:text-sm text-gray-600">
+              {subscriberCount.toLocaleString()} subscribers
+            </p>
           </div>
           <Button
             onClick={handleSubscribe}
