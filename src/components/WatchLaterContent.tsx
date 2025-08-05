@@ -13,7 +13,6 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useUser } from "@/lib/AuthContext";
 
 const WatchLaterContent = () => {
-  const videos = "/videos/vdo.mp4";
 
   const { user } = useUser();
 
@@ -83,20 +82,20 @@ const WatchLaterContent = () => {
       <div className="space-y-4 sm:space-y-6">
         {watchLater.map((item, index) => (
           <div
-            key={item._id}
+            key={item?._id}
             className="flex flex-col sm:flex-row max-w-full sm:max-w-125 gap-3 bg-white hover:shadow-lg transition p-3 sm:p-4 items-start"
           >
             <div
-              key={item._id}
+              key={item?._id}
               className="flex flex-row lg:gap-3 gap-1 sm:gap-1 w-full"
             >
               <div className="flex gap-3 w-50 h-[113px]">
                 <Link
-                  href={`/watch/${item.videoid._id}`}
+                  href={`/watch/${item?.videoid._id}`}
                   className="block flex-shrink-0 rounded overflow-hidden group"
                 >
                   <video
-                    src={videos}
+                    src={item?.videoid?.filepath}
                     className="object-cover h-[113px] sm:h-28 w-50 bg-black rounded"
                     muted
                     controls={false}
