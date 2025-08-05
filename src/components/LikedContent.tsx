@@ -13,7 +13,6 @@ import { useUser } from "@/lib/AuthContext";
 import axiosInstance from "@/lib/axiosInstance";
 
 const LikedContent = () => {
-  const videos = "/videos/vdo.mp4";
 
   const { user } = useUser();
 
@@ -32,7 +31,7 @@ const LikedContent = () => {
     if (!user) return;
 
     try {
-      const LikedData = await axiosInstance.get(`/watch/${user?._id}`);
+      const LikedData = await axiosInstance.get(`/like/${user?._id}`);
       setLiked(LikedData.data);
     } catch (error) {
       console.error("Failed to load liked video:", error);
@@ -105,7 +104,7 @@ const LikedContent = () => {
                   className="block flex-shrink-0 rounded overflow-hidden group"
                 >
                   <video
-                    src={videos}
+                    src={item?.videoid?.filepath}
                     className="object-cover h-[113px] sm:h-28 w-50 bg-black rounded"
                     muted
                     controls={false}
@@ -126,13 +125,6 @@ const LikedContent = () => {
                   <p className="text-xs text-gray-500 truncate font-bold">
                     {item?.videoid?.videochannel}
                   </p>
-                  {/* <p className="text-xs text-gray-500">
-                    {Number(item?.videoid?.views).toLocaleString()} views &middot;{" "}
-                    {formatDistanceToNow(new Date(item?.videoid?.createdAt))} ago
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    Liked {formatDistanceToNow(new Date(item.createdAt))} ago
-                  </p> */}
                 </Link>
               </div>
 
