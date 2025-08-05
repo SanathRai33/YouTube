@@ -167,7 +167,7 @@ function Navbar() {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link
-                        href={`/liked/${user._id}`}
+                        href="/liked"
                         className="flex items-center space-x-2"
                       >
                         Liked videos
@@ -175,7 +175,7 @@ function Navbar() {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link
-                        href={`/watch-later/${user._id}`}
+                        href="/watch-later"
                         className="flex items-center space-x-2"
                       >
                         Watch Later

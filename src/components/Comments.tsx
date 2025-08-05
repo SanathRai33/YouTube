@@ -39,7 +39,7 @@ function Comments({ videoid }: any) {
   const loadComments = async () => {
     if (!user) return;
     try {
-      const CommentData = await axiosInstance.get(`/comment/${videoid?._id}`);
+      const CommentData = await axiosInstance.get(`/comment/${videoid}`);
       setComments(CommentData.data);
     } catch (error) {
       console.error("Failed to load comment:", error);
@@ -58,7 +58,7 @@ function Comments({ videoid }: any) {
     try {
       const res = await axiosInstance.post(`/comment/postComment`, {
         videoid: videoid,
-        userid: user.id,
+        userid: user._id,
         commentbody: newComment,
         usercommented: user.name,
       });
@@ -113,7 +113,9 @@ function Comments({ videoid }: any) {
       if (res.data.comment) {
         setComments((prev) => prev.filter((c) => c._id !== id));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("Filed to delete comment", error)
+    }
   };
 
   if (!user) {
@@ -140,8 +142,8 @@ function Comments({ videoid }: any) {
       {user && (
         <div className="flex items-start gap-3 mb-6">
           <Avatar>
-            <AvatarImage src={user.image} alt={user.name} />
-            <AvatarFallback>{user.name[0]}</AvatarFallback>
+            <AvatarImage src={user?.image} alt={user?.name} />
+            <AvatarFallback>{user?.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <Textarea id="text"
@@ -171,13 +173,13 @@ function Comments({ videoid }: any) {
         </div>
       )}
       <div className="space-y-1">
-        {comments.length === 0 ? (
+        {comments?.length === 0 ? (
           <p>
             No comments yet.Be the first to comment!
           </p>
         ) : (
           <>
-            {comments.map((comment) => (
+            {comments?.map((comment) => (
               <div
                 key={comment?._id}
                 className="flex items-start bg-gray-50 gap-1 rounded-lg p-2"
@@ -186,7 +188,7 @@ function Comments({ videoid }: any) {
                   {user?.image ? (
                     <AvatarImage
                       src={user?.image}
-                      alt={comment.usercommented}
+                      alt={comment?.usercommented}
                     />
                   ) : (
                     <AvatarFallback className="bg-black text-white">
@@ -231,7 +233,7 @@ function Comments({ videoid }: any) {
                   ) : (
                     <>
                       <p className="mb-2">{comment?.commentbody}</p>
-                      {comment?.userid === user?.id && (
+                      {comment?.userid === user?._id && (
                         <div className="flex gap-2">
                           <Button
                             onClick={() => handleEdit(comment)}

@@ -39,11 +39,10 @@ const ChannelHeader = ({ channel, user }: any) => {
             )}
           </div>
 
-          {/* Subscribe Button - Full width on mobile, auto on larger screens */}
           {user && user?._id !== channel?._id && (
             <div className="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-auto">
               <Button
-                onClick={() => setIsSubscribed((prev) => !prev)}
+                onClick={() => setIsSubscribed(!isSubscribed)}
                 className={`w-full sm:w-auto px-5 py-2 rounded-full text-sm font-semibold transition
                   ${
                     isSubscribed

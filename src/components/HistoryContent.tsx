@@ -43,7 +43,7 @@ const HistoryContent = () => {
 
   const handleRemoveHistory = async (historyId: string) => {
     try {
-      setHistory((prev) => prev.filter((item) => item._id !== historyId));
+      setHistory(history.filter((item) => item._id !== historyId));
     } catch (error) {
       console.error("Failed to remove history:", error);
     }
@@ -101,7 +101,7 @@ const HistoryContent = () => {
                 className="block w-full sm:w-40 flex-shrink-0 rounded overflow-hidden group"
               >
                 <video
-                  src={videos}
+                  src={`${process.env.BACKEND_URL}/${item.videoid?.filepath}`}
                   className="object-cover w-full h-32 sm:h-24 bg-black rounded"
                   muted
                   controls={false}
