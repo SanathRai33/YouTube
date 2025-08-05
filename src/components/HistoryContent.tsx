@@ -97,11 +97,11 @@ const HistoryContent = () => {
             <div className="flex flex-col sm:flex-row gap-3 w-full">
               {/* Video thumbnail */}
               <Link
-                href={`/watch/${item.videoid._id}`}
+                href={`/watch/${item?.videoid._id}`}
                 className="block w-full sm:w-40 flex-shrink-0 rounded overflow-hidden group"
               >
                 <video
-                  src={`${process.env.BACKEND_URL}/${item.videoid?.filepath}`}
+                  src={item?.videoid?.filepath}
                   className="object-cover w-full h-32 sm:h-24 bg-black rounded"
                   muted
                   controls={false}
