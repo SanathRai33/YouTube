@@ -41,14 +41,10 @@ function VideoInfo({ video }: any) {
   useEffect(() => {
     const handleView = async () => {
       if (!video?._id) return;
+console.log("Sending view history for video:");
+      console.log("userId:", user?._id, "type:", typeof user?._id);
+      console.log("videoId:", video?._id, "type:", typeof video?._id);
 
-      console.log("Sending history update:", {
-        videoId: video?._id,
-        userId: user?._id,
-      },"Type of:", 
-        video?._id.typeof,
-        user?._id.typeof,
-      );
       try {
         const payload = {
           userId: user?._id,
