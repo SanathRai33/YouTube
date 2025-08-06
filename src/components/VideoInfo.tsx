@@ -42,14 +42,14 @@ function VideoInfo({ video }: any) {
     const handleView = async () => {
       if (user) {
         try {
-          return await axiosInstance.post(`/history/${video?._id}`, {
+          await axiosInstance.post(`/history/${video?._id}`, {
             userId: user?._id,
           });
         } catch (error) {
-          return console.log(error);
+          console.log("Error in handleView:", error);
         }
       } else {
-        return await axiosInstance.post(`/history/views/${video?._id}`);
+        await axiosInstance.post(`/history/views/${video?._id}`);
       }
     };
     handleView();
