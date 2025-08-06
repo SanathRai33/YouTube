@@ -45,7 +45,10 @@ function VideoInfo({ video }: any) {
       console.log("Sending history update:", {
         videoId: video?._id,
         userId: user?._id,
-      });
+      },"Type of:", 
+        video?._id.typeof,
+        user?._id.typeof,
+      );
       try {
         const payload = {
           userId: user?._id,
@@ -59,12 +62,7 @@ function VideoInfo({ video }: any) {
         );
         console.log("History update successful:", response.data);
       } catch (error) {
-        console.error("Full history error:", {
-          // message: error.message,
-          // response: error.response?.data,
-          // status: error.response?.status,
-          // config: error.config
-        });
+        console.error("History error:", error);
       }
     };
 
