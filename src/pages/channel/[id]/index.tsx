@@ -15,9 +15,6 @@ const index = () => {
   try {
     let channel = user;
 
-    const videos: any = [
-    ];
-
     return (
       <div className="min-h-screen min-w-[calc(100%-258px)] bg-gray-50 py-8 px-4">
         <div className="mx-auto flex flex-col gap-8">
@@ -26,12 +23,15 @@ const index = () => {
             <ChannelTab />
           </div>
           <div>
-            {channel && (
-              <VideoUploader channelId={channel._id} channelName={channel.channelname} />
-            )}
+            <ChannelVideo user={user} />
           </div>
           <div>
-            <ChannelVideo videos={videos} />
+            {channel && (
+              <VideoUploader
+                channelId={channel._id}
+                channelName={channel.channelname}
+              />
+            )}
           </div>
         </div>
       </div>

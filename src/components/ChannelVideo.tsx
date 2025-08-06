@@ -1,8 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import VideoCard from "./VideoCard";
+import axiosInstance from "@/lib/axiosInstance";
 
-const ChannelVideo = ({ videos }: any) => {
-  if (!videos || videos.length === 0) {
+const ChannelVideo = ({ user }: any) => {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (user && user._id) {
+      fetchMyVideos();
+    }
+  }, [user]);
+
+  const fetchMyVideos = async () => {
+    try {
+      const res = await axiosInstance.get(`/video/channel/${user._id}`);
+      setVideos(res.data);
+    } catch (error) {
+      console.error("Error loading your videos", error);
+      setError("Failed to load your videos. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="py-10 text-center text-gray-600 font-medium">
+        Loading your videos...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-10 text-center text-red-500 font-medium">{error}</div>
+    );
+  }
+
+  if (videos.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -34,11 +71,13 @@ const ChannelVideo = ({ videos }: any) => {
   return (
     <div className="mt-6 sm:mt-8">
       <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 px-4 sm:px-0">
-        Videos
+        Your Uploaded Videos
       </h2>
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-1">
         {videos.map((video: any) => (
-          <VideoCard key={video._id} video={video} />
+          <div >
+            <VideoCard key={video._id} video={video} className="max-w-[354px] max-h-[272px]"/>
+          </div>
         ))}
       </div>
     </div>

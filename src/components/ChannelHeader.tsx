@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 const ChannelHeader = ({ channel, user }: any) => {
@@ -16,6 +16,7 @@ const ChannelHeader = ({ channel, user }: any) => {
           {/* Avatar - Centered on mobile */}
           <div className="flex sm:block w-full sm:w-auto justify-center">
             <Avatar className="w-16 h-16 sm:w-20 sm:h-20 text-xl sm:text-3xl bg-gray-200">
+            <AvatarImage src={channel?.image} />
               <AvatarFallback className="bg-black text-white">
                 {channel?.channelname[0]}
               </AvatarFallback>

@@ -3,11 +3,12 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { formatDistanceToNow } from "date-fns";
 
-function VideoCard({ video }: any) {
+function VideoCard({ video, className }: any) {
+
   return (
     <Link
       href={`/watch/${video?._id}`}
-      className="block mb-4 md:mb-6 group box-border w-full sm:w-[calc(50%-12px)] md:w-[400px]"
+      className={`block mb-4 md:mb-6 group box-border w-full sm:w-[calc(50%-12px)] md:w-[400px] ${className}`}
     >
       <div className="rounded-lg overflow-hidden w-full h-auto bg-white shadow hover:shadow-lg transition">
         <div className="relative aspect-video">
@@ -24,10 +25,10 @@ function VideoCard({ video }: any) {
           </div>
         </div>
         <div className="flex items-start gap-3 p-3">
-          <Avatar className="w-9 h-9 sm:w-10 sm:h-10 bg-black">
-            <AvatarImage src={video.uploader?.image} />
-            <AvatarFallback>
-              {video.uploader?.channelname?.charAt(0) || "N"}
+          <Avatar className="w-9 h-9 sm:w-10 sm:h-10 bg-black text-white">
+            <AvatarImage src={video?.uploader?.image} />
+            <AvatarFallback className=" bg-black text-white">
+              {video?.videochannel?.charAt(0) || "N"}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
