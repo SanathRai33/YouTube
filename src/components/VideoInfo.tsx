@@ -40,20 +40,24 @@ function VideoInfo({ video }: any) {
 
   useEffect(() => {
     const handleView = async () => {
-      if (user) {
-        try {
-          await axiosInstance.post(`/history/${video?._id}`, {
+      try {
+        if (user) {
+          const response = await axiosInstance.post(`/history/${video?._id}`, {
             userId: user?._id,
           });
-        } catch (error) {
-          console.log("Error in handleView:", error);
+          console.log("History update response:", response.data);
+        } else {
+          await axiosInstance.post(`/history/views/${video?._id}`);
         }
-      } else {
-        await axiosInstance.post(`/history/views/${video?._id}`);
+      } catch (error) {
+        console.error("Error updating history:",error);
       }
     };
-    handleView();
-  }, [user]);
+
+    if (video?._id) {
+      handleView();
+    }
+  }, [user, video?._id]);
 
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
