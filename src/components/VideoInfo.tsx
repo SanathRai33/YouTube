@@ -40,21 +40,35 @@ function VideoInfo({ video }: any) {
 
   useEffect(() => {
     const handleView = async () => {
+      if (!video?._id) return;
+
+      console.log("Sending history update:", {
+        videoId: video?._id,
+        userId: user?._id,
+      });
       try {
-        if (user) {
-          const response = await axiosInstance.post(`/history/${video?._id}`, {
-            userId: user?._id,
-          });
-          console.log("History update response:", response.data);
-        } else {
-          await axiosInstance.post(`/history/views/${video?._id}`);
-        }
+        const payload = {
+          userId: user?._id,
+        };
+
+        console.log("Attempting history update with:", payload);
+
+        const response = await axiosInstance.post(
+          `/history/${video._id}`,
+          payload
+        );
+        console.log("History update successful:", response.data);
       } catch (error) {
-        console.error("Error updating history:",error);
+        console.error("Full history error:", {
+          // message: error.message,
+          // response: error.response?.data,
+          // status: error.response?.status,
+          // config: error.config
+        });
       }
     };
 
-    if (video?._id) {
+    if (user) {
       handleView();
     }
   }, [user, video?._id]);
