@@ -29,15 +29,15 @@ function Comments({ videoid }: any) {
   const { user } = useUser();
 
   useEffect(() => {
-    if (user) {
+    if (user && videoid) {
       loadComments();
     } else {
       setLoading(true);
     }
-  }, [videoid]);
+  }, [videoid, user]);
 
   const loadComments = async () => {
-    if (!user) return;
+    if (!user || !videoid) return;
     try {
       const CommentData = await axiosInstance.get(`/comment/${videoid}`);
       setComments(CommentData.data);
@@ -114,7 +114,7 @@ function Comments({ videoid }: any) {
         setComments((prev) => prev.filter((c) => c._id !== id));
       }
     } catch (error) {
-      console.log("Filed to delete comment", error)
+      console.log("Filed to delete comment", error);
     }
   };
 
@@ -146,8 +146,9 @@ function Comments({ videoid }: any) {
             <AvatarFallback>{user?.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <Textarea id="text"
-            name="text"
+            <Textarea
+              id="text"
+              name="text"
               placeholder="Add a comment"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
@@ -174,9 +175,7 @@ function Comments({ videoid }: any) {
       )}
       <div className="space-y-1">
         {comments?.length === 0 ? (
-          <p>
-            No comments yet.Be the first to comment!
-          </p>
+          <p>No comments yet.Be the first to comment!</p>
         ) : (
           <>
             {comments?.map((comment) => (

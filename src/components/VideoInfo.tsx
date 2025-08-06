@@ -41,9 +41,6 @@ function VideoInfo({ video }: any) {
   useEffect(() => {
     const handleView = async () => {
       if (!video?._id) return;
-console.log("Sending view history for video:");
-      console.log("userId:", user?._id, "type:", typeof user?._id);
-      console.log("videoId:", video?._id, "type:", typeof video?._id);
 
       try {
         const payload = {
@@ -73,8 +70,8 @@ console.log("Sending view history for video:");
 
       try {
         const [subsRes, mySubRes] = await Promise.all([
-          axiosInstance.get(`/subscription/subscribers/${video.uploader}`),
-          axiosInstance.get(`/subscription/${user._id}/${video.uploader}`),
+          axiosInstance.get(`/subscription/subscribers/${video.uploader._id}`), // FIXED
+          axiosInstance.get(`/subscription/${user._id}/${video.uploader._id}`), // FIXED
         ]);
 
         setSubscriberCount(subsRes.data.length);
@@ -93,7 +90,8 @@ console.log("Sending view history for video:");
       return;
     }
     if (!video?.uploader) return;
-    if (user._id === video.uploader) {
+    if (user._id === video.uploader._id) {
+      // FIXED
       alert("You cannot subscribe to your own channel.");
       return;
     }
@@ -102,14 +100,14 @@ console.log("Sending view history for video:");
       if (isSubscribed) {
         await axiosInstance.post(`/subscription/unsubscribe`, {
           subscriberId: user._id,
-          channelId: video.uploader,
+          channelId: video.uploader._id, // FIXED
         });
         setIsSubscribed(false);
         setSubscriberCount((prev) => prev - 1);
       } else {
         await axiosInstance.post(`/subscription/subscribe`, {
           subscriberId: user._id,
-          channelId: video.uploader,
+          channelId: video.uploader._id, // FIXED
         });
         setIsSubscribed(true);
         setSubscriberCount((prev) => prev + 1);
