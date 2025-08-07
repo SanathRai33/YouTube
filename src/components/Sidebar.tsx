@@ -20,7 +20,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
   const [openDialogue, setOpenDialogue] = useState(false);
 
   return (
-    <aside className="lg:flex flex-col h-full bg-white border-r-2 border-gray-200 w-64 hidden">
+    <aside className="lg:flex flex-col h-[calc(100% + 1px)] bg-white border-r-2 border-gray-200 w-64 hidden">
       {/* <Button
         className="lg:hidden ml-2 mt-0 text-black self-start bg-white"
         onClick={onClose}

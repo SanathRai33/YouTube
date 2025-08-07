@@ -12,6 +12,8 @@ const VideoUploader = ({ channelId, channelName }: any) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoTitle, setVideoTitle] = useState("");
+  const [videoDesc, setVideoDesc] = useState("");
+  const [videoTags, setVideoTags] = useState("");
   const [uploadComplete, setUploadComplete] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -62,6 +64,8 @@ const VideoUploader = ({ channelId, channelName }: any) => {
     const formData = new FormData();
     formData.append("file", videoFile);
     formData.append("videotitle", videoTitle);
+    formData.append("videodesc", videoDesc);
+    formData.append("videotags", videoTags);
     formData.append("videochannel", channelName);
     formData.append("uploader", channelId);
     try {
@@ -144,6 +148,32 @@ const VideoUploader = ({ channelId, channelName }: any) => {
                 value={videoTitle}
                 onChange={(e) => setVideoTitle(e.target.value)}
                 className="w-full text-black"
+                disabled={isUploading}
+              />
+            </div>
+            <div>
+              <Label htmlFor="description" className="block mb-1 text-black">
+                Description *(required)
+              </Label>
+              <Input
+                id="description"
+                value={videoDesc}
+                onChange={(e) => setVideoDesc(e.target.value)}
+                className="w-full text-black"
+                disabled={isUploading}
+                placeholder="Add a description describes your content"
+              />
+            </div>
+            <div>
+              <Label htmlFor="tags" className="block mb-1 text-black">
+                Tags (Use commas "," separated to get high search results)
+              </Label>
+              <Input
+                id="tags"
+                value={videoTags}
+                onChange={(e) => setVideoTags(e.target.value)}
+                className="w-full text-black"
+                placeholder="e.g. travel, vlog, adventure"
                 disabled={isUploading}
               />
             </div>
