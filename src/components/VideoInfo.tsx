@@ -181,6 +181,9 @@ function VideoInfo({ video }: any) {
     }
   };
 
+  console.log(video.uploader);
+  console.log(video);
+
   return (
     <div className="bg-white p-3 sm:p-4 rounded-lg gap-2 text-black">
       {/* Video Title */}
@@ -194,8 +197,8 @@ function VideoInfo({ video }: any) {
         <div className="flex items-center justify-start space-x-3 w-full sm:w-auto">
           <Avatar className="w-9 h-9 sm:w-10 sm:h-10 bg-black">
             <AvatarImage src={video.uploader?.image} />
-            <AvatarFallback>
-              {video.uploader?.channelname?.charAt(0) || "N"}
+            <AvatarFallback className="bg-black text-white">
+              {video?.videochannel?.charAt(0) || "N"}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -359,7 +362,7 @@ function VideoInfo({ video }: any) {
           <p
             className={`text-sm ${!showFullDescription ? "line-clamp-2" : ""}`}
           >
-            {video.description ||
+            {video.videodesc ||
               "Lorem ipsum dolor sit amet consectetur adipisicing elit. A sapiente suscipit magni error maiore voluptatibus, cumque, doloribus"}
           </p>
         </div>

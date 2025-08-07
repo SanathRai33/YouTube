@@ -12,13 +12,11 @@ const index = () => {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("videos");
 
-  console.log(user)
-
   try {
     let channel = user;
 
     return (
-      <div className="min-h-screen min-w-[calc(100%-258px)] bg-gray-50 py-8 px-4">
+      <div className="min-h-screen min-w-[calc(100%-258px)] bg-gray-50 py-8 px-24">
         <div className="mx-auto flex flex-col gap-8">
           <ChannelHeader channel={channel} user={user} />
 
