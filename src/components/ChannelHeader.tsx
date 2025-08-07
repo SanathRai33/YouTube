@@ -2,11 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import axiosInstance from "@/lib/axiosInstance";
+import { Camera } from "lucide-react";
+import { useRouter } from "next/router";
 
 const ChannelHeader = ({ channel, user }: any) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [videoCount, setVideoCount] = useState(0);
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
@@ -38,22 +44,84 @@ const ChannelHeader = ({ channel, user }: any) => {
     fetchMyVideos();
   }, [user]);
 
+  const handleUploadBanner = async () => {
+    if (!bannerFile) {
+      alert("Please select a banner image first.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("banner", bannerFile);
+
+    try {
+      await axiosInstance.patch(`/user/banner/${user._id}`, formData);
+      alert("Banner updated!");
+    } catch (err) {
+      console.error("Error uploading banner:", err);
+    }
+  };
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+
+  const handleRedirect = () => {
+    window.open("https://myaccount.google.com/personal-info", "_blank");
+  };
+
   return (
     <div className="w-full bg-white border-b border-gray-200 mb-4 sm:mb-6">
       {/* Banner */}
-      <div className="w-full bg-amber-200 h-24 lg:h-43 rounded-b-lg rounded-t-2xl sm:h-32 md:h-40"></div>
+      <div className="w-full bg-amber-200 h-24 lg:h-43 rounded-b-lg rounded-t-2xl sm:h-32 md:h-40 relative overflow-hidden">
+        <img
+          src={user?.banner || "/default-banner.jpg"}
+          alt="Channel Banner"
+          style={{ width: "100%", height: "200px", objectFit: "cover" }}
+        />
+
+        <span className="absolute bottom-1 right-1">
+          {" "}
+          <Camera color="black" />{" "}
+          <input
+            type="file"
+            className="text-black"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setBannerFile(e.target.files[0]);
+              }
+            }}
+          />
+          <button onClick={handleUploadBanner}>Upload Banner</button>
+        </span>
+      </div>
 
       {/* Channel Info */}
       <div className="h-[212px] py-4 sm:py-6 px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
           {/* Avatar - Centered on mobile */}
-          <div className="lg:w-40 lg:h-40 flex sm:block sm:w-auto justify-center content-center">
-            <Avatar className="lg:w-40 lg:h-40 sm:w-20 sm:h-20 text-xl sm:text-3xl">
-              <AvatarImage src={channel?.image} className="lg:w-40 lg:h-40" />
-              <AvatarFallback className="bg-black text-white">
-                {channel?.channelname[0]}
+          <div
+            className="relative flex justify-center items-center w-auto sm:block lg:w-40 lg:h-40 sm:w-20 sm:h-20"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <Avatar className="w-20 h-20 sm:w-20 sm:h-20 lg:w-40 lg:h-40 text-xl sm:text-3xl">
+              <AvatarImage
+                src={channel?.image}
+                alt="Channel Avatar"
+                className="w-full h-full object-cover rounded-full"
+              />
+              <AvatarFallback className="bg-black text-white uppercase">
+                {channel?.channelname?.[0] || "U"}
               </AvatarFallback>
             </Avatar>
+
+            {isHovered && (
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer"
+                onClick={handleRedirect}
+              >
+                <Camera color="white" size={24} />
+              </div>
+            )}
           </div>
 
           {/* Channel Details */}
