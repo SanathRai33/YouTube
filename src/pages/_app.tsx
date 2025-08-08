@@ -4,9 +4,9 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "../lib/AuthContext";
-// In your _app.tsx or layout component
 import { gsap } from 'gsap/dist/gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import "@/components/ui/fontawesome";
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);

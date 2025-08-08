@@ -233,11 +233,10 @@ function VideoInfo({ video }: any) {
             </Button>
           </div>
           <Button
-            className="gap-1 bg-white rounded-full min-w-30 flex justify-evenly"
-            onClick={handleWatchLater}
+            className="gap-1 bg-white text-black rounded-full border-gray-300 border-1 hover:bg-gray-100"
           >
-            <Clock size={16} />
-            <span>{isSaved ? "Saved" : "Watch Later"}</span>
+            <LucideDownload size={16} />
+            <span>Download</span>
           </Button>
 
           <DropdownMenu>
@@ -256,8 +255,8 @@ function VideoInfo({ video }: any) {
                   // variant="outline"
                   className="gap-1 bg-white text-black hover:bg-gray-50"
                 >
-                  <LucideDownload size={16} />
-                  <span>Download</span>
+                  <Share2 size={16} />
+                  <span>Share</span>
                 </Button>
               </DropdownMenuItem>
               <DropdownMenuItem>
@@ -356,7 +355,7 @@ function VideoInfo({ video }: any) {
             className={`text-sm ${!showFullDescription ? "line-clamp-2" : ""}`}
           >
             {video.videodesc ||
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. A sapiente suscipit magni error maiore voluptatibus, cumque, doloribus"}
+              "No description"}
           </p>
         </div>
         <Button

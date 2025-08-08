@@ -4,8 +4,21 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { formatDistanceToNow } from "date-fns";
 import { useUser } from "@/lib/AuthContext";
-import { Clock } from "lucide-react";
+import {
+  Clock,
+  Edit2,
+  MoreVertical,
+  ThumbsDown,
+  ThumbsUp,
+  Trash2,
+} from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 interface Comment {
   _id: string;
@@ -183,7 +196,7 @@ function Comments({ videoid }: any) {
             {comments?.map((comment) => (
               <div
                 key={comment?._id}
-                className="flex items-start bg-gray-50 gap-1 rounded-lg p-2"
+                className="flex items-start bg-gray-50 gap-1 rounded-lg p-2  pb-10"
               >
                 <Avatar>
                   {user?.image ? (
@@ -232,25 +245,64 @@ function Comments({ videoid }: any) {
                       </div>
                     </div>
                   ) : (
-                    <>
-                      <p className="mb-2">{comment?.commentbody}</p>
+                    <div className="flex justify-between items-start ">
+                      <div>
+                        <p className="mb-2">{comment?.commentbody}</p>
+                        <div className="flex items-center gap-5 text-black">
+                          <div className="flex items-center gap-1">
+                            <Button className="bg-white w-10 px-0 text-black hover:bg-white flex items-center gap-1">
+                              <ThumbsUp className="w-4 h-4 cursor-pointer" />
+                              <span className="text-[12px] text-gray-800">
+                                {10}
+                              </span>
+                            </Button>
+                            <Button className="bg-white w-6 px-0 text-black hover:bg-white">
+                              <ThumbsDown className="w-4 h-4 cursor-pointer" />
+                            </Button>
+                          </div>
+                          <div>
+                            <span className="font-[600] cursor-pointer">
+                              Reply
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                       {comment?.userid === user?._id && (
                         <div className="flex gap-2">
-                          <Button
-                            onClick={() => handleEdit(comment)}
-                            className="bg-transperant text-black hover:bg-gray-100 shadow-none"
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            onClick={() => handleDelete(comment?._id)}
-                            className="bg-transperant text-black hover:bg-gray-100 shadow-none"
-                          >
-                            Delete
-                          </Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild className="self-end">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="bg-white rounded-full border-0 hover:bg-gray-300 w-2 h-7"
+                              >
+                                <MoreVertical />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem>
+                                <Button
+                                  onClick={() => handleEdit(comment)}
+                                  className="bg-transperant text-black hover:bg-gray-100 shadow-none"
+                                >
+                                  <Edit2 size={16} className="text-black" />
+                                  Edit
+                                </Button>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Button
+                                  onClick={() => handleDelete(comment?._id)}
+                                  className="bg-transperant text-black hover:bg-gray-100 shadow-none"
+                                >
+                                  <Trash2 size={16} className="text-black" />
+                                  Delete
+                                </Button>
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </div>
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
