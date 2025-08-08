@@ -25,7 +25,7 @@ function Category() {
 
   return (
     <div className="max-w-[1200px] mx-auto relative">
-      <div className="flex flex-nowrap overflow-x-auto py-2 px-4 gap-3 scroll-smooth hide-scrollbar">
+      <div className="flex flex-nowrap lg:w-[1200px] md:w-[700px] overflow-x-auto py-2 px-4 gap-3 scroll-smooth hide-scrollbar">
         {categories.map((category) => (
           <Button
             key={category}
@@ -37,7 +37,7 @@ function Category() {
           </Button>
         ))}
       </div>
-      <div className="md:hidden absolute top-0 right-0 bottom-0 w-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+      {/* <div className="md:hidden absolute top-0 right-0 bottom-0 w-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div> */}
     </div>
   );
 }

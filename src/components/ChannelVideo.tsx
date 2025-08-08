@@ -7,24 +7,23 @@ const ChannelVideo = ({ user }: any) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-useEffect(() => {
-  if (user && user._id) {
-    fetchMyVideos();
-  }
-}, [user]);
+  useEffect(() => {
+    if (user && user._id) {
+      fetchMyVideos();
+    }
+  }, [user]);
 
-const fetchMyVideos = async () => {
-  try {
-    const res = await axiosInstance.get(`/video/channel/${user._id}`);
-    setVideos(res.data);
-  } catch (error) {
-    console.error("Error loading your videos", error);
-    setError("Failed to load your videos. Please try again later.");
-  } finally {
-    setLoading(false);
-  }
-};
-
+  const fetchMyVideos = async () => {
+    try {
+      const res = await axiosInstance.get(`/video/channel/${user._id}`);
+      setVideos(res.data);
+    } catch (error) {
+      console.error("Error loading your videos", error);
+      setError("Failed to load your videos. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -76,8 +75,12 @@ const fetchMyVideos = async () => {
       </h2>
       <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-1">
         {videos?.map((video: any) => (
-          <div >
-            <VideoCard key={video._id} video={video} className="max-w-[354px] max-h-[272px]"/>
+          <div>
+            <VideoCard
+              key={video._id}
+              video={video}
+              className="max-w-[354px] max-h-[272px]"
+            />
           </div>
         ))}
       </div>

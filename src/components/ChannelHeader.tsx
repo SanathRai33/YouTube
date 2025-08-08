@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import axiosInstance from "@/lib/axiosInstance";
 import { Camera } from "lucide-react";
-import { useRouter } from "next/router";
 
 const ChannelHeader = ({ channel, user }: any) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -11,8 +10,6 @@ const ChannelHeader = ({ channel, user }: any) => {
   const [videoCount, setVideoCount] = useState(0);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-
-  const router = useRouter();
 
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {

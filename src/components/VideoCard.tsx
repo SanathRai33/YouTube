@@ -8,7 +8,7 @@ function VideoCard({ video, className }: any) {
   return (
     <Link
       href={`/watch/${video?._id}`}
-      className={`block mb-4 md:mb-6 group box-border w-full sm:w-[calc(50%-12px)] md:w-[400px] ${className}`}
+      className={`block mb-4 md:mb-6 group box-border w-full lg:w-full sm:w-[calc(50%-12px)] md:w-[360px] ${className}`}
     >
       <div className="rounded-lg overflow-hidden w-full h-auto bg-white shadow hover:shadow-lg transition">
         <div className="relative aspect-video">
