@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import axiosInstance from "@/lib/axiosInstance";
 import { Camera } from "lucide-react";
+import { toast } from "sonner";
 
 const ChannelHeader = ({ channel, user }: any) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -51,9 +52,11 @@ const ChannelHeader = ({ channel, user }: any) => {
 
     try {
       await axiosInstance.patch(`/user/banner/${user._id}`, formData);
-      alert("Banner updated!");
+      toast.success("Banner updated!");
     } catch (err) {
       console.error("Error uploading banner:", err);
+    }finally {
+      setBannerFile(null);
     }
   };
 
@@ -75,11 +78,41 @@ const ChannelHeader = ({ channel, user }: any) => {
         />
 
         <span className="absolute bottom-1 right-1">
-          {" "}
-          <Camera color="black" />{" "}
+          {bannerFile && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
+              <div className="bg-gray-900 p-6 w-full max-w-md rounded-2xl shadow-2xl transform transition-all scale-95 hover:scale-100">
+                <h2 className="text-xl font-semibold text-white mb-4 text-center">
+                  Change Channel Banner
+                </h2>
+                <p className="text-gray-300 text-center mb-6">
+                  Do you want to replace your current channel banner with this
+                  new one?
+                </p>
+                <div className="flex items-center justify-center gap-4">
+                  <Button
+                    className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition"
+                    onClick={() => setBannerFile(null)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition"
+                    onClick={handleUploadBanner}
+                  >
+                    Upload
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}{" "}
+          <Camera
+            color="black"
+            className="absolute w-10 bottom-0 right-0 cursor-pointer"
+          />{" "}
           <input
             type="file"
-            className="text-black"
+            className="text-transparent w-10 absolute z-1 bottom-0 right-0 opacity-0 cursor-pointer"
+            // className="text-black bg-amber-500 w-10"
             accept="image/*"
             onChange={(e) => {
               if (e.target.files && e.target.files[0]) {
@@ -87,7 +120,6 @@ const ChannelHeader = ({ channel, user }: any) => {
               }
             }}
           />
-          <button onClick={handleUploadBanner}>Upload Banner</button>
         </span>
       </div>
 
