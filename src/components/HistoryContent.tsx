@@ -13,7 +13,6 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useUser } from "@/lib/AuthContext";
 
 const HistoryContent = () => {
-  const videos = "/videos/vdo.mp4";
 
   const { user } = useUser();
 

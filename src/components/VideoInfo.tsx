@@ -47,13 +47,10 @@ function VideoInfo({ video }: any) {
           userId: user?._id,
         };
 
-        console.log("Attempting history update with:", payload);
-
         const response = await axiosInstance.post(
           `/history/${video._id}`,
           payload
         );
-        console.log("History update successful:", response.data);
       } catch (error) {
         console.error("History error:", error);
       }
@@ -181,9 +178,6 @@ function VideoInfo({ video }: any) {
     }
   };
 
-  console.log(video.uploader);
-  console.log(video);
-
   return (
     <div className="bg-white p-3 sm:p-4 rounded-lg gap-2 text-black">
       {/* Video Title */}
@@ -239,8 +233,7 @@ function VideoInfo({ video }: any) {
             </Button>
           </div>
           <Button
-            variant="outline"
-            className="gap-1 bg-white rounded-full"
+            className="gap-1 bg-white rounded-full min-w-30 flex justify-evenly"
             onClick={handleWatchLater}
           >
             <Clock size={16} />

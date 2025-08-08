@@ -20,7 +20,6 @@ function index() {
         const res = await axiosInstance.get("/video/getAll");
         const video = res.data?.filter((vid: any) => vid._id === id);
         setSelectedVideo(video[0]);
-        console.log("video", video[0], id);
         setVideo(res.data);
       } catch (error) {
         console.log(error);
@@ -46,7 +45,7 @@ function index() {
           <div className="md:col-span-2 space-y-3 sm:space-y-4">
             <VideoPlayer video={selectedVideo} />
             <VideoInfo video={selectedVideo} />
-            <Comments videoId={id} />
+            <Comments videoid={id} />
           </div>
           <div className="space-y-3 sm:space-y-4">
             <RelatedVideo videos={video} />

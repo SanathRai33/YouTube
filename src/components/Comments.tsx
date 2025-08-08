@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
@@ -34,10 +34,11 @@ function Comments({ videoid }: any) {
     } else {
       setLoading(true);
     }
-  }, [videoid, user]);
+  }, [user, videoid]);
 
   const loadComments = async () => {
     if (!user || !videoid) return;
+
     try {
       const CommentData = await axiosInstance.get(`/comment/${videoid}`);
       setComments(CommentData.data);
@@ -89,7 +90,7 @@ function Comments({ videoid }: any) {
   const handleUploadComment = async () => {
     if (!editText.trim()) return;
     try {
-      const res = await axiosInstance.post(
+      const res = await axiosInstance.put(
         `/comment/updateComment/${editingCommentsId}`,
         { commentbody: editText }
       );
@@ -108,6 +109,7 @@ function Comments({ videoid }: any) {
   };
 
   const handleDelete = async (id: string) => {
+    console.log(id);
     try {
       const res = await axiosInstance.delete(`/comment/deleteComment/${id}`);
       if (res.data.comment) {
