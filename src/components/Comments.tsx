@@ -5,6 +5,8 @@ import { Button } from "./ui/button";
 import { formatDistanceToNow } from "date-fns";
 import { useUser } from "@/lib/AuthContext";
 import {
+  ArrowDown,
+  ArrowUp,
   Clock,
   Edit2,
   MoreVertical,
@@ -29,6 +31,15 @@ interface Comment {
   commentedon: string;
 }
 
+const LANGUAGES = [
+  { code: "en", name: "English" },
+  { code: "hi", name: "Hindi" },
+  { code: "mr", name: "Marathi" },
+  { code: "ta", name: "Tamil" },
+  { code: "es", name: "Spanish" },
+  { code: "fr", name: "French" },
+];
+
 function Comments({ videoid }: any) {
   const [comments, setComments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +49,15 @@ function Comments({ videoid }: any) {
     null
   );
   const [editText, setEditText] = useState("");
+  // const [selectedLang, setSelectedLang] = useState<Record<string, string>>({});
+  // const [translations, setTranslations] = useState<
+  //   Record<string, { loading: boolean; text: string; lang?: string }>
+  // >({});
+  const [replyText, setReplyText] = useState("");
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [openReplies, setOpenReplies] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   const { user } = useUser();
 
@@ -133,6 +153,79 @@ function Comments({ videoid }: any) {
     }
   };
 
+  const handleReplySubmit = async (commentId: string) => {
+    if (!replyText.trim()) return;
+    try {
+      const res = await axiosInstance.post(`/comment/reply/${commentId}`, {
+        userid: user._id,
+        replybody: replyText,
+        userreplied: user.name,
+        userimage: user.image,
+      });
+      setComments(
+        comments.map((c) => (c._id === commentId ? res.data.comment : c))
+      );
+      setReplyingTo(null);
+      setReplyText("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleLike = async (commentId: string) => {
+    try {
+      const res = await axiosInstance.put(`/comment/like/${commentId}`, {
+        userid: user._id,
+      });
+      setComments(
+        comments.map((c) => (c._id === commentId ? res.data.comment : c))
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDislike = async (commentId: string) => {
+    try {
+      const res = await axiosInstance.put(`/comment/dislike/${commentId}`, {
+        userid: user._id,
+      });
+      setComments(
+        comments.map((c) => (c._id === commentId ? res.data.comment : c))
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // const handleTranslate = async (commentId: string, text: string) => {
+  //   const targetLang = selectedLang[commentId] || "en";
+  //   setTranslations((prev) => ({
+  //     ...prev,
+  //     [commentId]: { loading: true, text: "" },
+  //   }));
+  //   try {
+  //     const res = await axiosInstance.post("/comment/translate", {
+  //       text,
+  //       targetLang,
+  //     });
+  //     setTranslations((prev) => ({
+  //       ...prev,
+  //       [commentId]: {
+  //         loading: false,
+  //         text: res.data.translatedText,
+  //         lang: targetLang,
+  //       },
+  //     }));
+  //   } catch (err) {
+  //     console.error("Translate error:", err);
+  //     setTranslations((prev) => ({
+  //       ...prev,
+  //       [commentId]: { loading: false, text: "Translation failed" },
+  //     }));
+  //   }
+  // };
+
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-black">
@@ -150,6 +243,8 @@ function Comments({ videoid }: any) {
   if (loading) {
     return <div className="py-10 text-center text-gray-500">Loading...</div>;
   }
+
+  console.log(comments[1]?.replies[0].userimage);
 
   return (
     <div className="text-black w-full max-w-2xl mx-auto">
@@ -188,7 +283,7 @@ function Comments({ videoid }: any) {
           </div>
         </div>
       )}
-      <div className="space-y-1">
+      <div className="space-y-1 pb-10">
         {comments?.length === 0 ? (
           <p>No comments yet.Be the first to comment!</p>
         ) : (
@@ -196,7 +291,7 @@ function Comments({ videoid }: any) {
             {comments?.map((comment) => (
               <div
                 key={comment?._id}
-                className="flex items-start bg-gray-50 gap-1 rounded-lg p-2  pb-10"
+                className="flex items-start bg-gray-50 gap-1 rounded-lg p-2 "
               >
                 <Avatar>
                   {user?.image ? (
@@ -246,27 +341,174 @@ function Comments({ videoid }: any) {
                     </div>
                   ) : (
                     <div className="flex justify-between items-start ">
-                      <div>
+                      <div className="w-[100%]">
                         <p className="mb-2">{comment?.commentbody}</p>
-                        <div className="flex items-center gap-5 text-black">
+                        <div className="flex items-center gap-5">
                           <div className="flex items-center gap-1">
-                            <Button className="bg-white w-10 px-0 text-black hover:bg-white flex items-center gap-1">
-                              <ThumbsUp className="w-4 h-4 cursor-pointer" />
-                              <span className="text-[12px] text-gray-800">
-                                {10}
-                              </span>
+                            <Button
+                              onClick={() => handleLike(comment._id)}
+                              className="bg-transparent w-10 px-0 text-black shadow-none hover:bg-transparent"
+                            >
+                              <ThumbsUp className="w-4 h-4" />
+                              <span>{comment.likes?.length || 0}</span>
                             </Button>
-                            <Button className="bg-white w-6 px-0 text-black hover:bg-white">
-                              <ThumbsDown className="w-4 h-4 cursor-pointer" />
+                            <Button
+                              onClick={() => handleDislike(comment._id)}
+                              className="bg-transparent w-10 px-0 text-black shadow-none hover:bg-transparent"
+                            >
+                              <ThumbsDown className="w-4 h-4" />
+                              {/* <span>{comment.dislikes?.length || 0}</span> */}
                             </Button>
                           </div>
-                          <div>
-                            <span className="font-[600] cursor-pointer">
+                          <span
+                            onClick={() => setReplyingTo(comment._id)}
+                            className="cursor-pointer font-semibold text-sm"
+                          >
+                            Reply
+                          </span>
+                        </div>
+
+                        {/* Reply Input */}
+                        {replyingTo === comment._id && (
+                          <div className="mt-2 mb-2 w-[calc(100% - 1px)] ">
+                            <Textarea
+                              id="text"
+                              value={replyText}
+                              onChange={(e) => setReplyText(e.target.value)}
+                              placeholder="Write a reply..."
+                              className="rounded-none border-0 border-b-1 h-1 border-black  focus-visible:ring-0 focus-visible:border-b-2 focus-visible:border-black focus:outline-none focus:border-transparent focus:ring-0"
+                            />
+                            <Button
+                              onClick={() => {
+                                setReplyingTo(null);
+                                setReplyText("");
+                              }}
+                              className="bg-transparent w-13 h-6 text-black shadow-none p-1 hover:bg-transparent rounded-full "
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              onClick={() => handleReplySubmit(comment._id)}
+                              disabled={replyText === ""}
+                              className="bg-transparent w-13 h-6 text-black shadow-none p-1 hover:bg-transparent rounded-full "
+                            >
                               Reply
-                            </span>
+                            </Button>
                           </div>
+                        )}
+
+                        <div>
+                          {comment.replies?.length > 0 && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="px-0 mt-1 text-blue-700 rounded-full hover:bg-blue-200"
+                              onClick={() =>
+                                setOpenReplies((prev) => ({
+                                  ...prev,
+                                  [comment._id]: !prev[comment._id],
+                                }))
+                              }
+                            >
+                              {comment?.replies.length}
+                              {openReplies[comment._id] ? (
+                                <>
+                                  <span>replies</span> <ArrowUp />
+                                </>
+                              ) : (
+                                <>
+                                  <span>replies</span> <ArrowDown />
+                                </>
+                              )}
+                            </Button>
+                          )}
+
+                          {openReplies[comment._id] && (
+                            <div className="mt-2">
+                              {comment.replies?.map((reply: any) => (
+                                <div
+                                  key={reply._id}
+                                  className="ml-1 mt-1 text-sm flex flex-col rounded-lg"
+                                >
+                                  <div className="ml-1 mt-2 text-sm flex items-center">
+                                    <Avatar className="inline-block mr-2">
+                                      <AvatarImage
+                                        src={reply.userimage}
+                                        alt={reply.userreplied}
+                                      />
+                                      <AvatarFallback className="bg-black text-white">
+                                        {reply.userreplied.charAt(0)}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                    <span className="font-semibold">
+                                      {reply.userreplied}
+                                    </span>
+                                    <span className="text-xs text-gray-500 ml-1">
+                                      {formatDistanceToNow(
+                                        new Date(reply.repliedon)
+                                      )}{" "}
+                                      ago
+                                    </span>
+                                  </div>
+                                  <div className="pl-12">{reply.replybody}</div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
+                      {/* {comment.replies?.map((reply: any) => (
+                          <div key={reply._id} className="ml-10 mt-2 text-sm">
+                            <span className="font-semibold">
+                              {reply.userreplied}
+                            </span>{" "}
+                            {reply.replybody}
+                          </div>
+                        ))} */}
+
+                      {/* <div className="flex items-center gap-2 mt-2">
+                        <select
+                          value={selectedLang[comment?._id] || "en"}
+                          onChange={(e) =>
+                            setSelectedLang((prev) => ({
+                              ...prev,
+                              [comment?._id]: e.target.value,
+                            }))
+                          }
+                          className="rounded border px-2 py-1 text-sm"
+                        >
+                          {LANGUAGES.map((l) => (
+                            <option key={l.code} value={l.code}>
+                              {l.name}
+                            </option>
+                          ))}
+                        </select>
+
+                        <Button
+                          onClick={() =>
+                            handleTranslate(comment?._id, comment?.commentbody)
+                          }
+                          disabled={translations[comment?._id]?.loading}
+                          className="bg-gray-100 text-black hover:bg-gray-200"
+                        >
+                          {translations[comment?._id]?.loading
+                            ? "Translating..."
+                            : "Translate"}
+                        </Button>
+                      </div> */}
+
+                      {/* show translated text */}
+                      {/* {translations[comment?._id]?.text && (
+                        <div className="mt-2 p-2 bg-gray-100 rounded">
+                          <small className="text-xs text-gray-500">
+                            Translated ({translations[comment?._id].lang})
+                          </small>
+                          <p className="mt-1">
+                            {translations[comment?._id].text}
+                          </p>
+                        </div>
+                      )} */}
+
                       {comment?.userid === user?._id && (
                         <div className="flex gap-2">
                           <DropdownMenu>
