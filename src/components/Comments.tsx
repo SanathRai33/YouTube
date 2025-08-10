@@ -307,8 +307,8 @@ function Comments({ videoid }: any) {
                 </Avatar>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium">
-                      {comment?.usercommented}
+                    <span className="text-[14px] font-semibold">
+                      @{comment?.usercommented}
                     </span>
                     <span className="text-xs text-gray-500">
                       {formatDistanceToNow(new Date(comment?.commentedon))} ago
@@ -342,7 +342,7 @@ function Comments({ videoid }: any) {
                   ) : (
                     <div className="flex justify-between items-start ">
                       <div className="w-[100%]">
-                        <p className="mb-2">{comment?.commentbody}</p>
+                        <p className="text-[14px]">{comment?.commentbody}</p>
                         <div className="flex items-center gap-5">
                           <div className="flex items-center gap-1">
                             <Button
@@ -367,6 +367,7 @@ function Comments({ videoid }: any) {
                             Reply
                           </span>
                         </div>
+                        <div className="text-[12px] text-gray-500">Translate to English</div>
 
                         {/* Reply Input */}
                         {replyingTo === comment._id && (
