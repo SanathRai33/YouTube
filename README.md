@@ -53,9 +53,15 @@ The app allows users to **upload, watch, like, comment, subscribe, and manage vi
 
 ### 1️⃣ Clone the repository
 
+#### Front End Code
 ```bash
-git clone https://github.com/your-username/youtube-clone.git
-cd youtube-clone
+git clone https://github.com/SanathRai33/YouTube.git
+cd YouTube
+```
+#### Back End Code
+```bash
+git clone https://github.com/SanathRai33/YouTube_Server.git
+cd YouTube
 ```
 
 ### 2️⃣ Install dependencies
