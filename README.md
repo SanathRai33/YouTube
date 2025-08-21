@@ -11,7 +11,7 @@ The app allows users to **upload, watch, like, comment, subscribe, and manage vi
 
 ### 🔹 User Features
 
-* 🔑 Authentication (Register, Login, Logout with JWT & bcrypt)
+* 🔑 Firebase Authentication (Register, Login, Logout)
 * 📹 Upload videos with **Cloudinary storage**
 * 🖼️ Video thumbnails & metadata
 * 🎥 Play videos with speed & quality controls (Cloudinary Player)
@@ -21,10 +21,10 @@ The app allows users to **upload, watch, like, comment, subscribe, and manage vi
 * ⏱️ Watch Later playlist
 * 📌 Subscriptions (follow/unfollow channels)
 
-### 🔹 Admin Features
+<!--### 🔹 Admin Features
 
 * 📦 Manage videos (add, delete)
-* 👥 Manage users & subscriptions
+* 👥 Manage users & subscriptions -->
 
 ---
 
@@ -39,12 +39,13 @@ The app allows users to **upload, watch, like, comment, subscribe, and manage vi
 ### Backend
 
 * 🟢 **Node.js** + **Express.js**
-* 🔐 JWT Authentication + bcrypt
+<!--* 🔐 JWT Authentication + bcrypt-->
 * ☁️ **Cloudinary** (video & thumbnail storage)
 
 ### Database
 
 * 🍃 **MongoDB** with Mongoose ORM
+* 🔥 **Firebase** user authentication
 
 ---
 
