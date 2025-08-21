@@ -1,40 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🎬 YouTube Clone (MERN + Next.js)
 
-## Getting Started
+A full-stack **YouTube-inspired video streaming platform** built with **Next.js (frontend)** and **MERN stack (backend)**.
+The app allows users to **upload, watch, like, comment, subscribe, and manage videos**, mimicking core YouTube functionalities.
 
-First, run the development server:
+🚀 **Live Demo**: [YouTube Clone](https://you-tube-git-main-sanath-rais-projects.vercel.app/)
+
+---
+
+## ⚡ Features
+
+### 🔹 User Features
+
+* 🔑 Authentication (Register, Login, Logout with JWT & bcrypt)
+* 📹 Upload videos with **Cloudinary storage**
+* 🖼️ Video thumbnails & metadata
+* 🎥 Play videos with speed & quality controls (Cloudinary Player)
+* 👍 Like / 👎 Dislike videos
+* 💬 Commenting system (add, edit, delete comments)
+* 📜 Watch history & views tracking
+* ⏱️ Watch Later playlist
+* 📌 Subscriptions (follow/unfollow channels)
+
+### 🔹 Admin Features
+
+* 📦 Manage videos (add, delete)
+* 👥 Manage users & subscriptions
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* ⚛️ **Next.js** (React Framework)
+* 🎨 Styling: CSS / Material UI / Shadcn UI
+* 📡 Axios for API calls
+
+### Backend
+
+* 🟢 **Node.js** + **Express.js**
+* 🔐 JWT Authentication + bcrypt
+* ☁️ **Cloudinary** (video & thumbnail storage)
+
+### Database
+
+* 🍃 **MongoDB** with Mongoose ORM
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/your-username/youtube-clone.git
+cd youtube-clone
+```
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Now, open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+---
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 📂 Project Structure
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+```
+/pages
+   index.tsx          -> Homepage
+   /api               -> API routes
+/components           -> Reusable UI components
+/lib                  -> Utility functions
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🌍 Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Easiest way: Deploy frontend on **Vercel** and backend on **Render/Heroku**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+* [Next.js Deployment Docs](https://nextjs.org/docs/pages/building-your-application/deploying)
+* [Vercel Deployment](https://vercel.com/new)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📚 Resources
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* [Next.js Documentation](https://nextjs.org/docs)
+* [MongoDB Docs](https://www.mongodb.com/docs/)
+* [Cloudinary Docs](https://cloudinary.com/documentation)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+✨ Built with ❤️ by [Sanath Rai](https://github.com/SanathRai33)
+
+---
