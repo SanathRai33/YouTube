@@ -39,7 +39,7 @@ The app allows users to **upload, watch, like, comment, subscribe, and manage vi
 ### Backend
 
 * 🟢 **Node.js** + **Express.js**
-<!--* 🔐 JWT Authentication + bcrypt-->
+* **Backend repo:** [](https://github.com/SanathRai33/YouTube_Server)
 * ☁️ **Cloudinary** (video & thumbnail storage)
 
 ### Database
